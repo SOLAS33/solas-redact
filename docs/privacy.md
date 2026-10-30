@@ -6,7 +6,7 @@ order: 6
 
 ## Short answer
 
-Your files are read, searched and redacted inside your browser tab. They are not sent to us or to anyone else. Solas Redact has no server code, no account and no analytics, and sets no cookies of its own.
+Your files are read, searched and redacted inside your browser tab. They are not sent to us or to anyone else. Solas Redact has no server code, no account and no analytics, and sets no cookies. On 30 October 2026 we read the response headers of five pages on the live site and none set a cookie.
 
 ## Where the work happens
 
