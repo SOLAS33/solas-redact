@@ -1,0 +1,87 @@
+PASS  app opens at /app/
+PASS  file picker is present
+PASS  an unsupported file is refused with a plain explanation
+PASS  PDF is opened with its page count
+PASS  text file is converted
+PASS  Word file is converted
+PASS  email is converted
+PASS  review lists the name
+PASS  review lists email, phone, PPS number and IBAN
+PASS  review lists date, Eircode and the project name
+PASS  the name is found on both pages
+PASS  ordinary text is not marked
+PASS  box starts at the first letter (box 240.1, letter 241.8)
+PASS  box ends at the last letter (box 315.5, letter 313.2)
+PASS  box covers the tops of the letters (top 78.2, baseline 92)
+PASS  box covers the descenders (bottom 97.8)
+PASS  text recognition finds the name in a scanned PDF
+PASS  a box can be drawn by hand
+PASS  text recognition finds the name in a picture file
+PASS  converted file 4 has matches
+PASS  converted file 5 has matches
+PASS  converted file 6 has matches
+PASS  converted file 7 has matches
+PASS  Create stays disabled until every file is marked as checked
+PASS  consent says the redactions are permanent and the originals are not changed
+PASS  the button stays disabled until the box is ticked
+PASS  seven files were processed
+PASS  every copy passed its checks
+PASS  the deep check ran
+PASS  every listed check passed
+PASS  copies are named _REDACTED.pdf
+PASS  all copies were downloaded
+PASS  contract_REDACTED.pdf: no text and no annotations when read by another build of the reader
+PASS  contract_REDACTED.pdf: none of the secrets or original metadata are in the raw file
+PASS  contract_REDACTED.pdf: no title, author, subject or keywords
+PASS  contract_REDACTED.pdf: producer is Ebon
+PASS  contract_REDACTED.pdf: no names tree, attachments or encryption
+PASS  scan_REDACTED.pdf: no text and no annotations when read by another build of the reader
+PASS  scan_REDACTED.pdf: none of the secrets or original metadata are in the raw file
+PASS  scan_REDACTED.pdf: no title, author, subject or keywords
+PASS  scan_REDACTED.pdf: producer is Ebon
+PASS  scan_REDACTED.pdf: no names tree, attachments or encryption
+PASS  scan-png_REDACTED.pdf: no text and no annotations when read by another build of the reader
+PASS  scan-png_REDACTED.pdf: none of the secrets or original metadata are in the raw file
+PASS  scan-png_REDACTED.pdf: no title, author, subject or keywords
+PASS  scan-png_REDACTED.pdf: producer is Ebon
+PASS  scan-png_REDACTED.pdf: no names tree, attachments or encryption
+PASS  notes_REDACTED.pdf: no text and no annotations when read by another build of the reader
+PASS  notes_REDACTED.pdf: none of the secrets or original metadata are in the raw file
+PASS  notes_REDACTED.pdf: no title, author, subject or keywords
+PASS  notes_REDACTED.pdf: producer is Ebon
+PASS  notes_REDACTED.pdf: no names tree, attachments or encryption
+PASS  mail_REDACTED.pdf: no text and no annotations when read by another build of the reader
+PASS  mail_REDACTED.pdf: none of the secrets or original metadata are in the raw file
+PASS  mail_REDACTED.pdf: no title, author, subject or keywords
+PASS  mail_REDACTED.pdf: producer is Ebon
+PASS  mail_REDACTED.pdf: no names tree, attachments or encryption
+PASS  letter_REDACTED.pdf: no text and no annotations when read by another build of the reader
+PASS  letter_REDACTED.pdf: none of the secrets or original metadata are in the raw file
+PASS  letter_REDACTED.pdf: no title, author, subject or keywords
+PASS  letter_REDACTED.pdf: producer is Ebon
+PASS  letter_REDACTED.pdf: no names tree, attachments or encryption
+PASS  rotated_REDACTED.pdf: no text and no annotations when read by another build of the reader
+PASS  rotated_REDACTED.pdf: none of the secrets or original metadata are in the raw file
+PASS  rotated_REDACTED.pdf: no title, author, subject or keywords
+PASS  rotated_REDACTED.pdf: producer is Ebon
+PASS  rotated_REDACTED.pdf: no names tree, attachments or encryption
+PASS  contract copy has 3 pages
+PASS  every original file is byte for byte unchanged
+PASS  every dark pixel of the hidden name is under a black box (676 pixels, 0 uncovered)
+PASS  the same on a page turned a quarter turn (662 pixels, 0 uncovered)
+PASS  the quarter-turn page keeps its shape (792 x 612)
+PASS  zip holds the copies and both reports
+PASS  the report holds no hidden text
+PASS  the report lists seven verified files with fingerprints
+PASS  the report's fingerprint matches the downloaded file
+PASS  the report's original fingerprint matches the original file
+PASS  the plain text report says all checks passed
+PASS  every request went to our own address
+PASS  nothing is kept in local storage, session storage or IndexedDB
+PASS  only Ebon's own app caches exist
+PASS  no document is in any cache
+PASS  no console errors or security policy violations
+PASS  the app opens again with no connection
+PASS  a file can be opened with no connection
+
+All checks passed

@@ -1,0 +1,7 @@
+node_modules/
+dist/
+public/vendor/
+tests/e2e/out/
+tests/fixtures/out/
+.wrangler/
+*.log
