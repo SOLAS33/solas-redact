@@ -2,7 +2,7 @@
 import puppeteer from "puppeteer-core";
 import { readFileSync, writeFileSync } from "node:fs";
 const [, , input, prefix] = process.argv;
-const b = await puppeteer.launch({ executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe", headless: true, args: ["--no-sandbox"] });
+const b = await puppeteer.launch({ executablePath: process.env.CHROME_PATH ?? "C:/Program Files/Google/Chrome/Application/chrome.exe", headless: true, args: ["--no-sandbox"] });
 const p = await b.newPage();
 const dataUrl = "data:image/png;base64," + readFileSync(input).toString("base64");
 for (const w of [640, 960, 1600]) {
