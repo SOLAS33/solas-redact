@@ -1,0 +1,62 @@
+# Test on every push and pull request. Deploy to Cloudflare only from main, and only once the secret holds a real token.
+# Repo secret: CF_API_TOKEN. Repo variable: CF_ACCOUNT_ID.
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - name: Third-party notices can be generated
+        run: node tools/licences.mjs
+      - name: End-to-end test in Chrome (real security headers, full flow)
+        run: npm run test:e2e
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: ebon-deploy
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Is the deploy token set?
+        run: |
+          if [ -n "$CF_API_TOKEN" ] && [ "${CF_API_TOKEN#PLACEHOLDER}" = "$CF_API_TOKEN" ]; then echo "CF_TOKEN_SET=true" >> "$GITHUB_ENV"; else echo "Deploy token not set; skipping deploy."; fi
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      - name: Deploy to Cloudflare
+        if: env.CF_TOKEN_SET == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ vars.CF_ACCOUNT_ID }}
+          wranglerVersion: "4"
+          command: deploy

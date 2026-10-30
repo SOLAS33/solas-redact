@@ -6,7 +6,7 @@
  */
 import { createServer } from "node:http";
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { extname, join } from "node:path";
 import puppeteer, { type ElementHandle, type Page } from "puppeteer-core";
 import { unzipSync, strFromU8 } from "fflate";
@@ -62,7 +62,9 @@ if (!chrome) throw new Error("No Chrome found. Set CHROME_PATH.");
 const browser = await puppeteer.launch({ executablePath: chrome, headless: true, args: ["--no-sandbox"] });
 
 let failures = 0;
+const checkNames: string[] = [];
 const check = (ok: boolean, what: string, detail = "") => {
+  checkNames.push(what);
   console.log(`${ok ? "PASS" : "FAIL"}  ${what}${!ok && detail ? `  -> ${detail}` : ""}`);
   if (!ok) failures++;
 };
@@ -148,6 +150,7 @@ check(fileText.some((t) => t.includes("contract.pdf") && t.includes("3 pages")),
 check(fileText.some((t) => t.includes("notes.txt") && t.includes("converted to PDF")), "text file is converted");
 check(fileText.some((t) => t.includes("letter.docx") && t.includes("Word, converted")), "Word file is converted");
 check(fileText.some((t) => t.includes("mail.eml") && t.includes("Email, converted")), "email is converted");
+await page.evaluate(() => scrollTo(0, 0));
 await page.screenshot({ path: join(shots, "1-files.png") });
 
 // ---- 2. rules ----
@@ -155,6 +158,7 @@ await clickButton(page, "Choose what to hide");
 await waitH1(page, "What to hide");
 await page.type("#terms", `${SECRETS.name}\n${SECRETS.project}\n${scanSecret}\n${SECRETS.rotatedName}`);
 for (const l of ["Email addresses", "Irish PPS numbers", "Eircodes", "Phone numbers", "IBANs", "Dates written as numbers"]) await tickLabel(page, l);
+await page.evaluate(() => scrollTo(0, 0));
 await page.screenshot({ path: join(shots, "2-rules.png") });
 await clickButton(page, "Find matches and review");
 await waitH1(page, "Review before anything is made", 240_000);
@@ -169,6 +173,7 @@ check(has(SECRETS.date) && has(SECRETS.eircode) && has(SECRETS.project), "review
 check(rows.filter((r) => r.includes(SECRETS.name)).length === 2, "the name is found on both pages", JSON.stringify(rows));
 check(!rows.some((r) => r.includes("nothing sensitive")), "ordinary text is not marked");
 await sleep(1500);
+await page.evaluate(() => scrollTo(0, 0));
 await page.screenshot({ path: join(shots, "3-review.png") });
 
 // box accuracy against the real Helvetica metrics
@@ -234,6 +239,7 @@ await clickButton(page, "Create 7 redacted copies");
 await page.waitForSelector(".modal");
 const consentText = await page.$eval(".modal", (e) => e.textContent ?? "");
 check(consentText.includes("permanent") && consentText.includes("original files are not changed"), "consent says the redactions are permanent and the originals are not changed");
+await page.evaluate(() => scrollTo(0, 0));
 await page.screenshot({ path: join(shots, "4-consent.png") });
 const makeDisabled = await page.evaluate(() => ([...document.querySelectorAll(".modal button")].find((b) => b.textContent?.startsWith("Make the copies")) as HTMLButtonElement).disabled);
 check(makeDisabled, "the button stays disabled until the box is ticked");
@@ -246,6 +252,7 @@ const failedChecks = await page.$$eval(".checks li.fail", (els) => els.map((e) =
 if (failedChecks.length) console.log("  failed checks: " + [...new Set(failedChecks)].join(" | "));
 check(results.every((r) => r.cls.includes("done")), "every copy passed its checks", JSON.stringify(results.map((r) => r.text.slice(0, 160))));
 await page.evaluate(() => document.querySelectorAll("details").forEach((d) => d.setAttribute("open", "")));
+await page.evaluate(() => scrollTo(0, 0));
 await page.screenshot({ path: join(shots, "5-results.png"), fullPage: true });
 const checkLabels = await page.$$eval(".checks li", (els) => els.map((e) => e.textContent ?? ""));
 check(checkLabels.some((t) => t.includes("Reading the finished pages")), "the deep check ran");
@@ -436,7 +443,13 @@ check((await off.$$(".file.ready")).length === 1, "a file can be opened with no 
   } else check(false, "the black and white copy was downloaded");
 }
 
+const chromeVersion = await browser.version();
 await browser.close();
 server.close();
+mkdirSync(join(root, "docs", "data"), { recursive: true });
+writeFileSync(
+  join(root, "docs", "data", "e2e-results.json"),
+  JSON.stringify({ date: new Date().toISOString().slice(0, 10), chrome: chromeVersion.replace(/^(Headless)?Chrome\//, "Chrome "), passed: checkNames.length - failures, failed: failures, checks: checkNames }, null, 2)
+);
 console.log(failures ? `\n${failures} check(s) FAILED` : "\nAll checks passed");
 process.exit(failures ? 1 : 0);

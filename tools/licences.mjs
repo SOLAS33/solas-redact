@@ -9,6 +9,8 @@ const tree = JSON.parse(execSync("npm ls --omit=dev --all --json --long", { enco
 const seen = new Map();
 (function walk(deps) {
   for (const [name, info] of Object.entries(deps ?? {})) {
+    // Optional, Node-only drawing library of pdfjs-dist. It is never sent to a browser and differs by operating system.
+    if (name.startsWith("@napi-rs/")) continue;
     if (info.path && !seen.has(info.path)) {
       seen.set(info.path, { name, version: info.version });
       walk(info.dependencies);

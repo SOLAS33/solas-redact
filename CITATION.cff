@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use Ebon in your work, please cite it as below."
+title: "Ebon: permanent redaction in the browser"
+version: 1.0.0
+date-released: 2026-10-30
+license: MIT
+repository-code: "https://github.com/SOLAS33/ebon"
+url: "https://ebon.solas33.com/"
+abstract: "Free, open source tool that permanently redacts PDFs and other documents in the browser by rebuilding each page as a picture with black boxes. Files never leave the computer."
+authors:
+  - name: "Solas33"
+keywords:
+  - redaction
+  - PDF
+  - privacy
+  - open source

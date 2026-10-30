@@ -1,0 +1,385 @@
+{
+  "packages": [
+    {
+      "name": "@pdf-lib/standard-fonts",
+      "version": "1.0.0",
+      "licence": "MIT",
+      "homepage": "https://github.com/Hopding/standard-fonts",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "@pdf-lib/upng",
+      "version": "1.0.1",
+      "licence": "MIT",
+      "homepage": "https://github.com/Hopding/upng",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "@tesseract.js-data/eng",
+      "version": "1.0.0",
+      "licence": "MIT",
+      "homepage": "https://github.com/naptha/tessdata",
+      "hasLicenceFile": false
+    },
+    {
+      "name": "@xmldom/xmldom",
+      "version": "0.8.15",
+      "licence": "MIT",
+      "homepage": "https://github.com/xmldom/xmldom",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "argparse",
+      "version": "1.0.10",
+      "licence": "MIT",
+      "homepage": "",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "base64-js",
+      "version": "1.5.1",
+      "licence": "MIT",
+      "homepage": "https://github.com/beatgammit/base64-js",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "bmp-js",
+      "version": "0.1.0",
+      "licence": "MIT",
+      "homepage": "https://github.com/shaozilee/bmp-js",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "core-util-is",
+      "version": "1.0.3",
+      "licence": "MIT",
+      "homepage": "git://github.com/isaacs/core-util-is",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "dingbat-to-unicode",
+      "version": "1.0.2",
+      "licence": "BSD-2-Clause",
+      "homepage": "https://github.com/mwilliamson/dingbat-to-unicode#readme",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "duck",
+      "version": "0.1.12",
+      "licence": "BSD",
+      "homepage": "https://github.com/mwilliamson/duck.js.git",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "fflate",
+      "version": "0.8.3",
+      "licence": "MIT",
+      "homepage": "https://101arrowz.github.io/fflate",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "idb-keyval",
+      "version": "6.3.0",
+      "licence": "Apache-2.0",
+      "homepage": "https://github.com/jakearchibald/idb-keyval#readme",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "immediate",
+      "version": "3.0.6",
+      "licence": "MIT",
+      "homepage": "git://github.com/calvinmetcalf/immediate.git",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "inherits",
+      "version": "2.0.4",
+      "licence": "ISC",
+      "homepage": "",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "is-url",
+      "version": "1.2.4",
+      "licence": "MIT",
+      "homepage": "",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "isarray",
+      "version": "1.0.0",
+      "licence": "MIT",
+      "homepage": "https://github.com/juliangruber/isarray",
+      "hasLicenceFile": false
+    },
+    {
+      "name": "js-tokens",
+      "version": "4.0.0",
+      "licence": "MIT",
+      "homepage": "",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "jszip",
+      "version": "3.10.2",
+      "licence": "(MIT OR GPL-3.0-or-later)",
+      "homepage": "https://github.com/Stuk/jszip.git",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "lie",
+      "version": "3.3.0",
+      "licence": "MIT",
+      "homepage": "https://github.com/calvinmetcalf/lie.git",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "loose-envify",
+      "version": "1.4.0",
+      "licence": "MIT",
+      "homepage": "https://github.com/zertosh/loose-envify",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "lop",
+      "version": "0.4.2",
+      "licence": "BSD-2-Clause",
+      "homepage": "https://github.com/mwilliamson/lop.git",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "mammoth",
+      "version": "1.13.0",
+      "licence": "BSD-2-Clause",
+      "homepage": "https://github.com/mwilliamson/mammoth.js.git",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "node-fetch",
+      "version": "2.7.0",
+      "licence": "MIT",
+      "homepage": "https://github.com/bitinn/node-fetch",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "opencollective-postinstall",
+      "version": "2.0.3",
+      "licence": "MIT",
+      "homepage": "https://github.com/opencollective/opencollective-postinstall#readme",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "option",
+      "version": "0.2.4",
+      "licence": "BSD-2-Clause",
+      "homepage": "https://github.com/mwilliamson/node-options.git",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "pako",
+      "version": "1.0.11",
+      "licence": "(MIT AND Zlib)",
+      "homepage": "https://github.com/nodeca/pako",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "pdf-lib",
+      "version": "1.17.1",
+      "licence": "MIT",
+      "homepage": "https://pdf-lib.js.org",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "pdfjs-dist",
+      "version": "6.4.299",
+      "licence": "Apache-2.0",
+      "homepage": "https://mozilla.github.io/pdf.js/",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "process-nextick-args",
+      "version": "2.0.1",
+      "licence": "MIT",
+      "homepage": "https://github.com/calvinmetcalf/process-nextick-args",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "react",
+      "version": "18.3.1",
+      "licence": "MIT",
+      "homepage": "https://reactjs.org/",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "react-dom",
+      "version": "18.3.1",
+      "licence": "MIT",
+      "homepage": "https://reactjs.org/",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "readable-stream",
+      "version": "2.3.8",
+      "licence": "MIT",
+      "homepage": "git://github.com/nodejs/readable-stream",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "regenerator-runtime",
+      "version": "0.13.11",
+      "licence": "MIT",
+      "homepage": "https://github.com/facebook/regenerator/tree/main/packages/runtime",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "safe-buffer",
+      "version": "5.1.2",
+      "licence": "MIT",
+      "homepage": "https://github.com/feross/safe-buffer",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "scheduler",
+      "version": "0.23.2",
+      "licence": "MIT",
+      "homepage": "https://reactjs.org/",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "setimmediate",
+      "version": "1.0.5",
+      "licence": "MIT",
+      "homepage": "",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "sprintf-js",
+      "version": "1.0.3",
+      "licence": "BSD-3-Clause",
+      "homepage": "https://github.com/alexei/sprintf.js.git",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "string_decoder",
+      "version": "1.1.1",
+      "licence": "MIT",
+      "homepage": "https://github.com/nodejs/string_decoder",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "tesseract.js",
+      "version": "7.0.0",
+      "licence": "Apache-2.0",
+      "homepage": "https://github.com/naptha/tesseract.js",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "tesseract.js-core",
+      "version": "7.0.0",
+      "licence": "Apache-2.0",
+      "homepage": "https://github.com/naptha/tesseract.js-core",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "tr46",
+      "version": "0.0.3",
+      "licence": "MIT",
+      "homepage": "https://github.com/Sebmaster/tr46.js#readme",
+      "hasLicenceFile": false
+    },
+    {
+      "name": "tslib",
+      "version": "1.14.1",
+      "licence": "0BSD",
+      "homepage": "https://www.typescriptlang.org/",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "underscore",
+      "version": "1.13.8",
+      "licence": "MIT",
+      "homepage": "https://underscorejs.org",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "util-deprecate",
+      "version": "1.0.2",
+      "licence": "MIT",
+      "homepage": "https://github.com/TooTallNate/util-deprecate",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "wasm-feature-detect",
+      "version": "1.9.0",
+      "licence": "Apache-2.0",
+      "homepage": "",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "webidl-conversions",
+      "version": "3.0.1",
+      "licence": "BSD-2-Clause",
+      "homepage": "",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "whatwg-url",
+      "version": "5.0.0",
+      "licence": "MIT",
+      "homepage": "",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "xmlbuilder",
+      "version": "10.1.1",
+      "licence": "MIT",
+      "homepage": "http://github.com/oozcitak/xmlbuilder-js",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "zlibjs",
+      "version": "0.3.1",
+      "licence": "MIT",
+      "homepage": "https://github.com/imaya/zlib.js",
+      "hasLicenceFile": true
+    }
+  ],
+  "vendor": [
+    {
+      "name": "PDF.js standard fonts (Foxit)",
+      "from": "pdfjs-dist",
+      "licence": "PDFium BSD-style",
+      "file": "node_modules/pdfjs-dist/standard_fonts/LICENSE_FOXIT"
+    },
+    {
+      "name": "PDF.js JBIG2 decoder (wasm)",
+      "from": "pdfjs-dist",
+      "licence": "see file",
+      "file": "node_modules/pdfjs-dist/wasm/LICENSE_JBIG2"
+    },
+    {
+      "name": "PDF.js OpenJPEG decoder (wasm)",
+      "from": "pdfjs-dist",
+      "licence": "BSD-2-Clause",
+      "file": "node_modules/pdfjs-dist/wasm/LICENSE_OPENJPEG"
+    },
+    {
+      "name": "PDF.js colour management (qcms, wasm)",
+      "from": "pdfjs-dist",
+      "licence": "MIT",
+      "file": "node_modules/pdfjs-dist/wasm/LICENSE_QCMS"
+    },
+    {
+      "name": "PDF.js ICC profile",
+      "from": "pdfjs-dist",
+      "licence": "CC0-1.0",
+      "file": "node_modules/pdfjs-dist/iccs/LICENSE"
+    },
+    {
+      "name": "Tesseract worker bundle",
+      "from": "tesseract.js",
+      "licence": "see file",
+      "file": "node_modules/tesseract.js/dist/worker.min.js.LICENSE.txt"
+    }
+  ]
+}

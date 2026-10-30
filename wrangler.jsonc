@@ -1,0 +1,8 @@
+{
+  // Ebon is static files only: no Worker code, no database, no storage. Cloudflare serves ./dist with the headers in dist/_headers.
+  "name": "ebon",
+  "compatibility_date": "2026-09-30",
+  "workers_dev": true,
+  "routes": [{ "pattern": "ebon.solas33.com", "custom_domain": true }],
+  "assets": { "directory": "./dist", "not_found_handling": "404-page" }
+}
