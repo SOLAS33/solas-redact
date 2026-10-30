@@ -4,7 +4,7 @@ description: The kinds of detail Solas Redact can look for, what each pattern ma
 order: 5
 ---
 
-Patterns find candidates. You decide in the review step. A pattern can match things that are not what you meant, and can miss unusual layouts.
+Patterns find candidates. You decide when you review the matches. A pattern can match things that are not what you meant, and can miss unusual layouts.
 
 {{patterns-table}}
 

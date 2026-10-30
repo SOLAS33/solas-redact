@@ -4,6 +4,20 @@ description: Every version of Solas Redact, what changed, and corrections to pub
 order: 12
 ---
 
+## 1.1.0 (30 October 2026)
+
+A new design and a simpler way to work. What the app removes and how it checks a copy have not changed.
+
+- Two choices at the start: redact by hand, or scan for words.
+- By hand goes straight to the page. A list of files appears only when a file needs attention.
+- The workspace fills the whole window on any monitor. The old limit of 900 pixels on the page is gone, and Fit width uses the full width.
+- One Undo, also on Ctrl+Z, covers every change to the boxes. The arrow keys turn the page.
+- The per-file "Checked" tick and "Mark all files as checked" are gone. The confirmation now names files with nothing hidden and pages you have not viewed.
+- Search, quality and checking options moved behind Search options and Output options. Page quality and the final reading check are now set when you create the copies.
+- Fonts (Inter Tight and IBM Plex Mono, both under the SIL Open Font License) are served from our own address.
+- A shorter website. The detail moved to the documentation, which now uses the full width of the screen.
+- Browser tests now also run in Edge, Brave and Firefox, and cover the by-hand flow and full-width layout.
+
 ## 1.0.1 (30 October 2026)
 
 - Fixed: on browsers older than about Chrome 145, a copy could not be finished. The file was refused with a technical error and nothing unsafe was offered. Solas Redact now uses the PDF library's build for older browsers, and all 89 browser checks pass in Chrome 130 as well as a current browser.

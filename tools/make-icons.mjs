@@ -6,11 +6,11 @@ const chrome = process.env.CHROME_PATH || ["C:/Program Files/Google/Chrome/Appli
 if (!chrome) throw new Error("No Chrome found. Set CHROME_PATH.");
 
 const svg = (maskable) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <rect width="512" height="512" ${maskable ? "" : 'rx="104"'} fill="#15161a"/>
+  <rect width="512" height="512" ${maskable ? "" : 'rx="104"'} fill="#0a0b0d"/>
   <g transform="${maskable ? "translate(51 51) scale(0.8)" : ""}">
-    <rect x="100" y="134" width="312" height="44" rx="10" fill="#f1efe8"/>
-    <rect x="100" y="234" width="312" height="56" rx="10" fill="#f2c200"/>
-    <rect x="100" y="346" width="200" height="44" rx="10" fill="#f1efe8"/>
+    <rect x="100" y="134" width="312" height="44" rx="0" fill="#f1efe8"/>
+    <rect x="100" y="234" width="312" height="56" rx="0" fill="#d4b06a"/>
+    <rect x="100" y="346" width="200" height="44" rx="0" fill="#f1efe8"/>
   </g>
 </svg>`;
 

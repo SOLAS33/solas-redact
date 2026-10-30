@@ -36,6 +36,8 @@ const vendor = [
   { name: "PDF.js OpenJPEG decoder (wasm)", from: "pdfjs-dist", licence: "BSD-2-Clause", file: "node_modules/pdfjs-dist/wasm/LICENSE_OPENJPEG" },
   { name: "PDF.js colour management (qcms, wasm)", from: "pdfjs-dist", licence: "MIT", file: "node_modules/pdfjs-dist/wasm/LICENSE_QCMS" },
   { name: "PDF.js ICC profile", from: "pdfjs-dist", licence: "CC0-1.0", file: "node_modules/pdfjs-dist/iccs/LICENSE" },
+  { name: "Inter Tight font", from: "@fontsource-variable/inter-tight", licence: "OFL-1.1", file: "node_modules/@fontsource-variable/inter-tight/LICENSE" },
+  { name: "IBM Plex Mono font", from: "@fontsource/ibm-plex-mono", licence: "OFL-1.1", file: "node_modules/@fontsource/ibm-plex-mono/LICENSE" },
   { name: "Tesseract worker bundle", from: "tesseract.js", licence: "see file", file: "node_modules/tesseract.js/dist/worker.min.js.LICENSE.txt" },
 ].map((v) => ({ ...v, text: existsSync(v.file) ? readFileSync(v.file, "utf8").trim() : "(file not found)" }));
 

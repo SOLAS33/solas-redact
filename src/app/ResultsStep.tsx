@@ -13,12 +13,13 @@ interface Props {
   onAgain(): void;
 }
 
-const LABEL: Record<ResultEntry["status"], string> = { queued: "Waiting", building: "Making the copy", checking: "Checking the copy", done: "Ready", failed: "Not kept", stopped: "Stopped" };
+const LABEL: Record<ResultEntry["status"], string> = { queued: "Waiting", building: "Making", checking: "Checking", done: "Ready", failed: "Not kept", stopped: "Stopped" };
 
 export function ResultsStep({ results, running, report, text, onStop, onBack, onAgain }: Props) {
   const [msg, setMsg] = useState("");
   const done = results.filter((r) => r.status === "done" && r.blob);
   const failed = results.filter((r) => r.status === "failed");
+  const single = results.length === 1;
   const reportFiles = () => [
     { name: "Solas-Redact-report.txt", text },
     { name: "Solas-Redact-report.json", text: JSON.stringify(report, null, 2) },
@@ -46,20 +47,35 @@ export function ResultsStep({ results, running, report, text, onStop, onBack, on
   };
 
   return (
-    <section className="panel" aria-labelledby="h-res">
-      <h1 id="h-res">{running ? "Making the copies" : "Redacted copies"}</h1>
-      {!running && (
-        <p className="lead">
-          {done.length} cop{done.length === 1 ? "y" : "ies"} ready{failed.length ? `, ${failed.length} not kept because a check failed` : ""}. Nothing has been uploaded. The originals are untouched.
+    <section className="page" aria-labelledby="h-res">
+      <div className="page-head">
+        <p className="kicker">
+          {running ? "Working on this device" : `${done.length} ready${failed.length ? ` · ${failed.length} not kept` : ""}`}
         </p>
+        <h1 id="h-res">{running ? "Making the copies" : "Redacted copies"}</h1>
+      </div>
+
+      {!running && done.length > 1 && (
+        <div className="actions lead-action">
+          <button className="btn primary big" onClick={zipAll}>Download all as a zip file</button>
+        </div>
       )}
 
       <ul className="results">
         {results.map((r) => (
           <li key={r.id} className={`res ${r.status}`}>
             <div className="res-head">
-              <strong>{r.name}</strong>
-              <span className={`pill ${r.status === "done" ? "ok" : r.status === "failed" ? "bad" : ""}`}>{LABEL[r.status]}</span>
+              <strong>{r.outName ?? r.name}</strong>
+              {r.status === "done" && r.blob ? (
+                <span className="res-size">{formatBytes(r.blob.size)}</span>
+              ) : (
+                <span className={`state ${r.status === "failed" ? "bad" : ""}`}>{LABEL[r.status]}</span>
+              )}
+              {r.status === "done" && r.blob && (
+                <button className={`btn dl ${single ? "primary" : ""}`} data-name={r.outName} onClick={() => download(r.blob!, r.outName!)}>
+                  Download
+                </button>
+              )}
             </div>
             {(r.status === "building" || r.status === "checking") && (
               <div role="status" aria-live="polite">
@@ -68,7 +84,7 @@ export function ResultsStep({ results, running, report, text, onStop, onBack, on
               </div>
             )}
             {r.error && <p className="err" role="alert">{r.error}</p>}
-            {r.status === "failed" && <p className="err">{r.message} Go back, change the settings or the boxes, and try again.</p>}
+            {r.status === "failed" && <p className="err">{r.message} Go back, change the boxes or settings, and try again.</p>}
             {r.verify && (
               <details open={r.status === "failed"}>
                 <summary>{r.verify.ok ? `All ${r.verify.checks.length} checks passed` : "Checks"}</summary>
@@ -81,33 +97,21 @@ export function ResultsStep({ results, running, report, text, onStop, onBack, on
                 </ul>
               </details>
             )}
-            {r.status === "done" && r.blob && (
-              <div className="actions tight">
-                <button className="btn primary" onClick={() => download(r.blob!, r.outName!)}>Download {r.outName}</button>
-                <span className="muted small">{formatBytes(r.blob.size)}</span>
-              </div>
-            )}
           </li>
         ))}
       </ul>
 
       {running ? (
-        <div className="actions"><button className="btn" onClick={onStop}>Stop after this file</button></div>
+        <div className="actions"><button className="link" onClick={onStop}>Stop after this file</button></div>
       ) : (
         <>
-          <div className="actions">
-            <button className="btn" onClick={onBack}>Back to review</button>
-            {done.length > 0 && <button className="btn primary" onClick={zipAll}>Download all as a zip file</button>}
-            {done.length > 0 && canSaveToFolder() && <button className="btn" onClick={toFolder}>Save to a folder</button>}
-            <button className="btn" onClick={() => download(new Blob([text], { type: "text/plain" }), "Solas-Redact-report.txt")}>Download the report</button>
+          <div className="actions secondary">
+            <button className="link" onClick={() => download(new Blob([text], { type: "text/plain" }), "Solas-Redact-report.txt")} title="File names, counts and SHA-256 fingerprints. It contains none of the hidden text.">Download the report</button>
+            {done.length > 0 && canSaveToFolder() && <button className="link" onClick={toFolder}>Save to a folder</button>}
+            <button className="link" onClick={onBack}>Back to review</button>
+            <button className="link" onClick={() => confirm("Remove everything from Solas Redact? Copies you have not downloaded will be lost.") && onAgain()}>Clear everything</button>
           </div>
           {msg && <p role="status" className="note">{msg}</p>}
-          <p className="muted small">
-            The report lists file names, page counts, how many items were hidden by each rule, and a SHA-256 fingerprint of each original and each copy. It does not contain any of the hidden text.
-          </p>
-          <div className="actions">
-            <button className="btn" onClick={() => confirm("Remove everything from Solas Redact? Copies you have not downloaded will be lost.") && onAgain()}>Finish and clear everything</button>
-          </div>
         </>
       )}
     </section>

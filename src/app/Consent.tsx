@@ -1,21 +1,26 @@
 import { useEffect, useRef, useState } from "react";
+import { QUALITY } from "../engine/types";
+import type { Settings } from "./state";
 
 interface Props {
   files: number;
   hidden: number;
   pages: number;
-  quality: string;
+  settings: Settings;
+  onChange(s: Settings): void;
   empty: string[];
+  /** Files with pages the person has not looked at, and how many. */
+  unseen: Array<{ name: string; pages: number }>;
   onCancel(): void;
   onConfirm(): void;
 }
 
-export function Consent({ files, hidden, pages, empty, onCancel, onConfirm }: Props) {
+export function Consent({ files, hidden, pages, settings, onChange, empty, unseen, onCancel, onConfirm }: Props) {
   const [ok, setOk] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    ref.current?.querySelector<HTMLElement>("input")?.focus();
+    ref.current?.querySelector<HTMLElement>(".consent-check input")?.focus();
     const k = (e: KeyboardEvent) => e.key === "Escape" && onCancel();
     addEventListener("keydown", k);
     return () => removeEventListener("keydown", k);
@@ -24,28 +29,44 @@ export function Consent({ files, hidden, pages, empty, onCancel, onConfirm }: Pr
   return (
     <div className="modal-back" role="presentation">
       <div className="modal" role="dialog" aria-modal="true" aria-labelledby="h-consent" ref={ref}>
-        <h2 id="h-consent">Make permanent redacted copies?</h2>
-        <p>
-          Solas Redact will make {files} new PDF{files === 1 ? "" : "s"} from {pages} page{pages === 1 ? "" : "s"}, hiding {hidden} item{hidden === 1 ? "" : "s"}.
-        </p>
+        <p className="kicker">{files} file{files === 1 ? "" : "s"} · {pages} page{pages === 1 ? "" : "s"} · {hidden} hidden</p>
+        <h2 id="h-consent">Create permanent copies?</h2>
         {empty.length > 0 && (
           <p className="note" role="alert">
-            Nothing is hidden in {empty.length === 1 ? "this file" : `these ${empty.length} files`}: {empty.slice(0, 4).join(", ")}
-            {empty.length > 4 ? ", ..." : ""}. {empty.length === 1 ? "Its copy" : "Their copies"} will look the same as the original, as page pictures.
+            Nothing is hidden in {empty.slice(0, 4).join(", ")}{empty.length > 4 ? `, and ${empty.length - 4} more` : ""}.
+          </p>
+        )}
+        {unseen.length > 0 && (
+          <p className="note" role="alert">
+            Pages not yet viewed: {unseen.slice(0, 4).map((u) => `${u.name} (${u.pages})`).join(", ")}{unseen.length > 4 ? `, and ${unseen.length - 4} more files` : ""}.
           </p>
         )}
         <ul className="consent-list">
-          <li><strong>The black boxes are permanent.</strong> The text and pictures under them are deleted from the copy. Nobody, including you, can bring them back from the copy.</li>
-          <li><strong>The whole copy becomes page pictures.</strong> You cannot select, search or copy text in it, and links, forms, comments, bookmarks and attachments are gone.</li>
-          <li><strong>Your original files are not changed.</strong> Solas Redact only makes new files, named with _REDACTED. Keep the originals if you may need them.</li>
-          <li><strong>Check the result before you send it.</strong> Solas Redact checks each copy, but you are the one who decides what is safe to share.</li>
+          <li>What is under the boxes is deleted from the copy, for good.</li>
+          <li>Each copy becomes page pictures, with no selectable text, links or forms.</li>
+          <li>Your original files are not changed.</li>
+          <li>Check each copy before you send it.</li>
         </ul>
+        <details className="more">
+          <summary>Output options</summary>
+          <div className="more-body">
+            <label>
+              Page quality{" "}
+              <select value={settings.quality} onChange={(e) => onChange({ ...settings, quality: e.target.value as Settings["quality"] })}>
+                {QUALITY.map((q) => (
+                  <option key={q.id} value={q.id}>{q.label}</option>
+                ))}
+              </select>
+            </label>
+            <label><input type="checkbox" checked={settings.deep} onChange={(e) => onChange({ ...settings, deep: e.target.checked })} /> Read the finished pages to check nothing shows through</label>
+          </div>
+        </details>
         <label className="consent-check">
-          <input type="checkbox" checked={ok} onChange={(e) => setOk(e.target.checked)} /> I understand that the redactions in the copies are permanent.
+          <input type="checkbox" checked={ok} onChange={(e) => setOk(e.target.checked)} /> I understand these redactions are permanent.
         </label>
         <div className="actions">
-          <button className="btn" onClick={onCancel}>Go back</button>
           <button className="btn primary" disabled={!ok} onClick={onConfirm}>Make the copies</button>
+          <button className="link" onClick={onCancel}>Go back</button>
         </div>
       </div>
     </div>

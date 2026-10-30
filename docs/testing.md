@@ -15,9 +15,13 @@ The tests run on every change in a public repository and can be run by anyone wi
 | Browser | {{e2e-chrome}} |
 | Unit tests | **{{unit-tests}} passed** |
 
+## Browsers
+
+{{e2e-browsers}}
+
 ## What the browser test does
 
-The test starts a real Chrome, serves the built site with its real security headers, and works through the interface as a person would. It adds seven files, plus one that must be refused:
+The test starts a real browser, serves the built site with its real security headers, and works through the interface as a person would. It adds seven files, plus one that must be refused:
 
 - a three-page PDF with real text, standard fonts, document properties, an attachment, a text form field with a value, and a link
 - a scanned PDF (a page that is only a picture of text) and the same picture as a PNG
@@ -25,7 +29,7 @@ The test starts a real Chrome, serves the built site with its real security head
 - a PDF page turned a quarter turn
 - an Excel file, which must be refused with a plain explanation
 
-It then searches for names and for email addresses, PPS numbers, Eircodes, phone numbers, IBANs and dates, reviews the matches, keeps one match, draws a box by hand, confirms the permanent-redaction notice, makes the copies, and downloads them one by one, as a zip file and as a report. A second short run makes a black and white copy.
+It then searches for names and for email addresses, PPS numbers, Eircodes, phone numbers, IBANs and dates, reviews the matches, keeps one match, draws a box by hand, confirms the permanent-redaction notice, makes the copies, and downloads them one by one, as a zip file and as a report. Further short runs make a copy by hand at 2560 pixels wide, with Undo and page turning, and a black and white copy.
 
 After that it checks the downloaded files with code that is separate from the app. [How these checks work](/docs/verification/) is written out.
 

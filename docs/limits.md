@@ -36,7 +36,7 @@ These are the known limits of version {{version}}. Each one is stated as found, 
 
 ## Browsers
 
-17. **Tested on Windows only, in Brave (which reports {{e2e-chrome}}) and in Chrome 130.** Other browsers are untested. Solas Redact uses features that older browsers lack, such as regular expression look-behind and module workers. Save to a folder needs a browser that has the File System Access API, such as Chrome. Other browsers use ordinary downloads and zip files.
+17. **Tested on Windows only, in {{e2e-browser-list}}.** Other browsers and systems are untested. The [test results](/docs/testing/) list exact versions. Opening the app with no connection is tested in Chrome, Edge and Brave. The test tool cannot switch Firefox offline, so that one check is not run there. Solas Redact uses features that older browsers lack, such as regular expression look-behind and module workers. Save to a folder needs a browser that has the File System Access API, such as Chrome. Other browsers use ordinary downloads and zip files.
 18. **Phones and tablets are untested.** The layout is built for a desktop screen.
 
 ## What a person must still do

@@ -52,6 +52,7 @@ interface Pkg { name: string; version: string; licence: string; homepage: string
 interface Vendor { name: string; from: string; licence: string; file: string }
 const third = json<{ packages: Pkg[]; vendor: Vendor[] }>("docs/data/third-party.json", { packages: [], vendor: [] });
 const e2e = json<{ date: string; chrome: string; passed: number; failed: number; checks: string[] }>("docs/data/e2e-results.json", { date: "", chrome: "", passed: 0, failed: 0, checks: [] });
+const browsers = json<Record<string, { name: string; version: string; date: string; passed: number; failed: number }>>("docs/data/e2e-browsers.json", {});
 const unit = json<{ date: string; tests: number }>("docs/data/unit-results.json", { date: "", tests: 0 });
 
 function thirdPartyTable(): string {
@@ -72,6 +73,13 @@ function patternsTable(): string {
 function qualityTable(): string {
   return ["| Setting | Resolution | Page picture |", "|---|---|---|", ...QUALITY.map((q) => `| ${q.label.replace(/ \(.*/, "")} | ${q.dpi} dpi | ${q.bw ? "1-bit black and white, lossless" : `JPEG, quality ${Math.round(q.jpeg * 100)}`} |`)].join("\n");
 }
+function browserTable(): string {
+  const rows = Object.values(browsers).map((b) => `| ${b.name} | ${b.version} | ${b.passed} of ${b.passed + b.failed} | ${b.date} |`);
+  return ["| Browser | Version | Checks passed | Tested |", "|---|---|---|---|", ...rows].join("\n");
+}
+function browserList(): string {
+  return Object.values(browsers).map((b) => `${b.name} ${b.version.split(".")[0]}`).join(", ");
+}
 function testList(): string {
   return e2e.checks.map((c) => `- ${c}`).join("\n");
 }
@@ -83,6 +91,8 @@ const PLACEHOLDERS: Record<string, () => string> = {
   "patterns-table": patternsTable,
   "quality-table": qualityTable,
   "e2e-list": testList,
+  "e2e-browsers": browserTable,
+  "e2e-browser-list": browserList,
   "e2e-passed": () => String(e2e.passed),
   "e2e-failed": () => String(e2e.failed),
   "e2e-date": () => e2e.date,
@@ -105,19 +115,23 @@ const docs: Doc[] = readdirSync(join(root, "docs"))
   .sort((a, b) => a.order - b.order);
 
 const NAV = [
-  ["/app/", "Open Solas Redact"],
-  ["/docs/guide/", "Guide"],
-  ["/docs/privacy/", "Privacy"],
-  ["/docs/licence/", "Licence"],
-  ["/docs/", "All documentation"],
+  ["/docs/how-it-works/", "How it works"],
+  ["/docs/verification/", "Security"],
+  ["/docs/", "Documentation"],
 ];
 
+// The contents rail on a documentation page, from its own h2 headings.
+function contents(html: string): string {
+  const items = [...html.matchAll(/<h2 id="([^"]+)">(.*?)<\/h2>/g)].map((m) => `<a href="#${m[1]}">${m[2].replace(/<[^>]+>/g, "")}</a>`);
+  return items.length > 1 ? `<aside class="toc" aria-label="On this page"><span class="kicker">On this page</span>${items.join("")}</aside>` : "";
+}
+
 function shell(opts: { title: string; description: string; path: string; body: string; docs?: boolean }): string {
-  const nav = NAV.map(([href, label]) => `<a href="${href}"${opts.path === href ? ' aria-current="page"' : ""}>${label}</a>`).join("");
+  const nav = NAV.map(([href, label]) => `<a href="${href}"${opts.path === href ? ' aria-current="page"' : ""}>${label}</a>`).join("") + `<a class="nav-cta" href="/app/">Open app</a>`;
   const side = opts.docs
     ? `<aside aria-label="Documentation"><nav>${docs.map((d) => `<a href="/docs/${d.slug}/"${opts.path === `/docs/${d.slug}/` ? ' aria-current="page"' : ""}>${esc(d.title)}</a>`).join("")}</nav></aside>`
     : "";
-  const main = opts.docs ? `<div class="docs">${side}<article>${opts.body}</article></div>` : opts.body;
+  const main = opts.docs ? `<div class="docs">${side}<article>${opts.body}</article>${contents(opts.body)}</div>` : opts.body;
   return `<!doctype html>
 <html lang="en-IE">
 <head>
@@ -125,7 +139,7 @@ function shell(opts: { title: string; description: string; path: string; body: s
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(opts.title)}</title>
 <meta name="description" content="${esc(opts.description)}">
-<meta name="theme-color" content="#15161a">
+<meta name="theme-color" content="#0a0b0d">
 <link rel="canonical" href="${SITE}${opts.path}">
 <link rel="icon" href="/icons/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
@@ -137,15 +151,15 @@ function shell(opts: { title: string; description: string; path: string; body: s
 </head>
 <body>
 <a class="skip" href="#main">Skip to the content</a>
-<header class="site"><div class="wrap"><a class="brand" href="/"><img src="/icons/icon-192.png" alt="" width="30" height="30">Solas Redact</a><nav aria-label="Main">${nav}</nav></div></header>
-<main id="main"><div class="wrap">${main}</div></main>
+<header class="site"><div class="wrap"><a class="brand" href="/"><span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>Solas Redact</a><nav aria-label="Main">${nav}</nav></div></header>
+<main id="main">${main}</main>
 <footer class="site"><div class="wrap">
-<span>Solas Redact ${VERSION}. Free and open source under the MIT licence.</span>
+<span>Solas Redact ${VERSION}. MIT licence.</span>
 <a href="${REPO_URL}">Source code</a>
 <a href="/docs/changelog/">Changelog</a>
-<a href="/docs/research/#how-to-cite-solas-redact">How to cite</a>
+<a href="/docs/privacy/">Privacy</a>
+<a href="/docs/limits/">Limits</a>
 <a href="/third-party-notices.txt">Third-party notices</a>
-<a href="${REPO_URL}/issues">Report a problem</a>
 </div></footer>
 </body>
 </html>
@@ -171,9 +185,13 @@ if (existsSync(img)) {
   const { meta, body } = frontMatter(read("site/home.md"));
   const html = marked.parse(fill(body), { async: false }) as string;
   const hero = `<section class="hero">
-<h1>${esc(meta.headline)}</h1>
+<div class="hero-copy">
+<p class="kicker">${esc(meta.kicker)}</p>
+<h1>${meta.headline}</h1>
 <p class="lede">${esc(meta.lede)}</p>
-<p class="cta"><a class="btn primary" href="/app/">Open Solas Redact</a><a class="btn" href="/docs/guide/">Read the guide</a><a class="btn" href="${REPO_URL}">Get the source code</a></p>
+<p class="cta"><a class="btn primary" href="/app/">Open Solas Redact</a><a class="btn" href="/docs/how-it-works/">How it works</a></p>
+</div>
+${read("site/hero-doc.html")}
 </section>`;
   writeFileSync(join(dist, "index.html"), shell({ title: meta.title, description: meta.description, path: "/", body: hero + html }));
 }
@@ -190,7 +208,7 @@ for (const d of docs) {
   write("docs", shell({ title: "Documentation | Solas Redact", description: "Guide, method, privacy, licence, limits and test results for Solas Redact.", path: "/docs/", body, docs: true }));
 }
 
-writeFileSync(join(dist, "404.html"), shell({ title: "Page not found | Solas Redact", description: "This page does not exist.", path: "/404", body: `<section class="hero"><h1>Page not found</h1><p class="lede">Try the <a href="/docs/">documentation</a> or <a href="/app/">open Solas Redact</a>.</p></section>` }));
+writeFileSync(join(dist, "404.html"), shell({ title: "Page not found | Solas Redact", description: "This page does not exist.", path: "/404", body: `<section class="hero solo"><div class="hero-copy"><h1>Page not found</h1><p class="lede">Try the <a href="/docs/">documentation</a> or <a href="/app/">open Solas Redact</a>.</p></div></section>` }));
 const urls = ["/", "/app/", "/docs/", ...docs.map((d) => `/docs/${d.slug}/`)];
 writeFileSync(join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${BUILT}</lastmod></url>`).join("\n")}\n</urlset>\n`);
 writeFileSync(join(dist, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);

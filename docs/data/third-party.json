@@ -1,6 +1,20 @@
 {
   "packages": [
     {
+      "name": "@fontsource-variable/inter-tight",
+      "version": "5.3.0",
+      "licence": "OFL-1.1",
+      "homepage": "https://fontsource.org/fonts/inter-tight",
+      "hasLicenceFile": true
+    },
+    {
+      "name": "@fontsource/ibm-plex-mono",
+      "version": "5.3.0",
+      "licence": "OFL-1.1",
+      "homepage": "https://fontsource.org/fonts/ibm-plex-mono",
+      "hasLicenceFile": true
+    },
+    {
       "name": "@pdf-lib/standard-fonts",
       "version": "1.0.0",
       "licence": "MIT",
@@ -374,6 +388,18 @@
       "from": "pdfjs-dist",
       "licence": "CC0-1.0",
       "file": "node_modules/pdfjs-dist/iccs/LICENSE"
+    },
+    {
+      "name": "Inter Tight font",
+      "from": "@fontsource-variable/inter-tight",
+      "licence": "OFL-1.1",
+      "file": "node_modules/@fontsource-variable/inter-tight/LICENSE"
+    },
+    {
+      "name": "IBM Plex Mono font",
+      "from": "@fontsource/ibm-plex-mono",
+      "licence": "OFL-1.1",
+      "file": "node_modules/@fontsource/ibm-plex-mono/LICENSE"
     },
     {
       "name": "Tesseract worker bundle",

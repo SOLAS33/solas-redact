@@ -1,6 +1,6 @@
 {
   "name": "solas-redact",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": true,
   "description": "Solas Redact: permanent PDF redaction in the browser. Files never leave the computer.",
   "type": "module",
@@ -17,6 +17,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource-variable/inter-tight": "5.3.0",
+    "@fontsource/ibm-plex-mono": "5.3.0",
     "@tesseract.js-data/eng": "1.0.0",
     "fflate": "0.8.3",
     "mammoth": "1.13.0",

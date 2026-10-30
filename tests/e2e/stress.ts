@@ -7,6 +7,7 @@
 import { createServer } from "node:http";
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync, rmSync } from "node:fs";
 import { extname, join } from "node:path";
+import type { ElementHandle } from "puppeteer-core";
 import puppeteer from "puppeteer-core";
 import { PDFDocument, StandardFonts } from "pdf-lib";
 
@@ -53,25 +54,22 @@ const lap = (what: string) => console.log(`${((Date.now() - t0) / 1000).toFixed(
 const heap = async () => ((await page.metrics()).JSHeapUsedSize! / 1e6).toFixed(0) + " MB";
 
 await page.goto(`${base}/app/`);
-await (await page.$("input[type=file]"))!.uploadFile(pdfPath);
-await page.waitForSelector(".file.ready", { timeout: 120000 });
+await ((await page.$("[data-testid=file-input-scan]")) as ElementHandle<HTMLInputElement>).uploadFile(pdfPath);
+await page.waitForSelector("#terms", { timeout: 120000 });
 lap("file opened");
-await btn("Choose what to hide");
-await page.waitForSelector("#terms");
 await page.type("#terms", "Mary O'Sullivan");
 await page.evaluate(() => [...document.querySelectorAll("label")].find((l) => l.textContent?.includes("Email addresses"))!.querySelector("input")!.click());
-if (!deep) await page.evaluate(() => [...document.querySelectorAll("label")].find((l) => l.textContent?.includes("Read the finished pages"))!.querySelector("input")!.click());
 await page.evaluate(() => [...document.querySelectorAll("label")].find((l) => l.textContent?.includes("Read scanned pages"))!.querySelector("input")!.click());
-if (bw) await page.select("select", "bw");
-await btn("Find matches");
+await btn("Scan documents");
 await page.waitForFunction(() => document.querySelector("h1")?.textContent?.includes("Review"), { timeout: 900000 });
 lap(`searched all pages, memory ${await heap()}`);
-const found = await page.$eval(".r-head strong", (e) => e.textContent);
+const found = await page.$eval(".list-head .kicker", (e) => e.textContent);
 console.log("   ", found);
-await btn("Mark all files as checked");
-await btn("Create 1 redacted copy");
+await btn("Create redacted copy");
 await page.waitForSelector(".modal");
-await page.click(".modal input[type=checkbox]");
+if (!deep) await page.evaluate(() => [...document.querySelectorAll("label")].find((l) => l.textContent?.includes("Read the finished pages"))!.querySelector("input")!.click());
+if (bw) await page.select(".modal select", "bw");
+await page.click(".consent-check input");
 await btn("Make the copies");
 let peak = 0;
 const timer = setInterval(async () => {

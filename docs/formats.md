@@ -33,7 +33,7 @@ Exporting from the original program is the better route for Office files anyway.
 
 ## Checking a converted file
 
-A converted file is a new document and may not look the same as the original. Solas Redact shows a note under each converted file in the list. Read the converted pages in the review step before you make the copy.
+A converted file is a new document and may not look the same as the original. Solas Redact shows a note above the page for each converted file. Read the converted pages in the review step before you make the copy.
 
 ## Hidden content in the original
 

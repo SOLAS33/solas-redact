@@ -1,6 +1,7 @@
 import type { FindOptions, Redaction, SourceDoc, VerifyReport } from "../engine/types";
 
-export type Step = "files" | "rules" | "review" | "results";
+export type Step = "start" | "files" | "rules" | "review" | "results";
+export type Mode = "manual" | "scan";
 
 export interface FileEntry {
   id: string;
@@ -16,8 +17,8 @@ export interface FileEntry {
   pagesWithoutText: number[];
   ocrPages: number;
   scanned: boolean;
-  /** Reviewer has looked at this file and is happy with it. */
-  approved: boolean;
+  /** Page numbers (from 0) the person has had on screen. */
+  seen: number[];
 }
 
 export interface Settings {

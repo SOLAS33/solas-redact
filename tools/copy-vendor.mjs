@@ -29,6 +29,15 @@ for (const f of readdirSync(join(pdf, "wasm"))) {
   cpSync(join(pdf, "wasm", f), join(out, "pdfjs", "wasm", f));
 }
 
+// Fonts for the app and the website
+mkdirSync(join(out, "fonts"), { recursive: true });
+const it = need(join(nm, "@fontsource-variable", "inter-tight"));
+const plex = need(join(nm, "@fontsource", "ibm-plex-mono"));
+for (const f of ["inter-tight-latin-wght-normal.woff2", "inter-tight-latin-ext-wght-normal.woff2"]) cpSync(join(it, "files", f), join(out, "fonts", f));
+for (const f of ["ibm-plex-mono-latin-400-normal.woff2", "ibm-plex-mono-latin-500-normal.woff2"]) cpSync(join(plex, "files", f), join(out, "fonts", f));
+cpSync(join(it, "LICENSE"), join(out, "fonts", "LICENSE-Inter-Tight.txt"));
+cpSync(join(plex, "LICENSE"), join(out, "fonts", "LICENSE-IBM-Plex-Mono.txt"));
+
 // Tesseract text recognition
 const tj = need(join(nm, "tesseract.js"));
 const core = need(join(nm, "tesseract.js-core"));

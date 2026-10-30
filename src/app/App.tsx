@@ -6,25 +6,20 @@ import { makeReport, reportText, sha256, type FileRecord } from "../engine/audit
 import { outputName } from "../engine/output";
 import { stopOcr } from "../engine/ocr";
 import { QUALITY, type Redaction } from "../engine/types";
-import { VERSION } from "../version";
-import { DEFAULT_SETTINGS, findOptions, type FileEntry, type ResultEntry, type Settings, type Step } from "./state";
+import { DEFAULT_SETTINGS, findOptions, type FileEntry, type Mode, type ResultEntry, type Settings, type Step } from "./state";
+import { Start } from "./Start";
 import { FilesStep } from "./FilesStep";
 import { RulesStep } from "./RulesStep";
 import { ReviewStep } from "./ReviewStep";
 import { ResultsStep } from "./ResultsStep";
 import { Consent } from "./Consent";
 
-const STEPS: Array<{ id: Step; label: string }> = [
-  { id: "files", label: "1 Add files" },
-  { id: "rules", label: "2 What to hide" },
-  { id: "review", label: "3 Review" },
-  { id: "results", label: "4 Copies" },
-];
-
 let seq = 0;
 
 export function App() {
-  const [step, setStep] = useState<Step>("files");
+  const [step, setStep] = useState<Step>("start");
+  const [mode, setMode] = useState<Mode>("manual");
+  const [routing, setRouting] = useState(false);
   const [entries, setEntries] = useState<FileEntry[]>([]);
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
   const [scan, setScan] = useState<{ busy: boolean; message: string; pct: number }>({ busy: false, message: "", pct: 0 });
@@ -67,13 +62,31 @@ export function App() {
         pagesWithoutText: [],
         ocrPages: 0,
         scanned: false,
-        approved: false,
+        seen: [],
       }));
       setEntries((es) => [...es, ...fresh]);
+      setRouting(true);
       for (const f of fresh) load(f.id, f.file);
     },
     [load]
   );
+
+  const start = useCallback(
+    (files: File[], m: Mode) => {
+      setMode(m);
+      addFiles(files);
+    },
+    [addFiles]
+  );
+
+  // Once new files have opened, go straight on. Only a file that needs attention stops at the file list.
+  useEffect(() => {
+    if (!routing || entries.some((e) => e.status === "loading")) return;
+    setRouting(false);
+    const trouble = entries.some((e) => e.status === "error" || e.status === "password");
+    if (trouble || !entries.length) setStep(entries.length ? "files" : "start");
+    else setStep(mode === "scan" ? "rules" : "review");
+  }, [routing, entries, mode]);
 
   const removeFile = useCallback((id: string) => {
     const e = entriesRef.current.find((x) => x.id === id);
@@ -88,7 +101,7 @@ export function App() {
     setResults([]);
     setRecords([]);
     setSettings(DEFAULT_SETTINGS);
-    setStep("files");
+    setStep("start");
   }, []);
 
   useEffect(() => {
@@ -119,7 +132,7 @@ export function App() {
           (done, total, what) => setScan({ busy: true, message: `${e.file.name}: ${what}`, pct: ((n + done / total) / list.length) * 100 }),
           cancel.current
         );
-        patch(e.id, { redactions: [...manual, ...r.redactions], pagesWithoutText: r.pagesWithoutText, ocrPages: r.ocrPages, scanned: true, approved: false });
+        patch(e.id, { redactions: [...manual, ...r.redactions], pagesWithoutText: r.pagesWithoutText, ocrPages: r.ocrPages, scanned: true });
       } catch (err) {
         patch(e.id, { status: "error", error: `Searching failed: ${(err as Error).message}` });
       }
@@ -129,7 +142,7 @@ export function App() {
   }, [settings, patch]);
 
   const setRedactions = useCallback((id: string, f: (r: Redaction[]) => Redaction[]) => {
-    setEntries((es) => es.map((e) => (e.id === id ? { ...e, redactions: f(e.redactions), approved: false } : e)));
+    setEntries((es) => es.map((e) => (e.id === id ? { ...e, redactions: f(e.redactions) } : e)));
   }, []);
 
   const create = useCallback(async () => {
@@ -198,61 +211,47 @@ export function App() {
   }, [ready]);
 
   const go = (s: Step) => setStep(s);
-  const idx = STEPS.findIndex((s) => s.id === step);
+  const onSeen = useCallback((id: string, page: number) => setEntries((es) => es.map((e) => (e.id === id && !e.seen.includes(page) ? { ...e, seen: [...e.seen, page] } : e))), []);
+  const unseen = ready.filter((e) => e.seen.length < (e.pages ?? 0)).map((e) => ({ name: e.file.name, pages: (e.pages ?? 0) - e.seen.length }));
 
   return (
-    <div className="shell">
+    <div className={`app ${step === "review" ? "app-work" : ""}`}>
       <header className="top">
-        <div className="brand" aria-label="Solas Redact">
-          <span className="mark" aria-hidden="true" />
+        <a className="brand" href="/" aria-label="Solas Redact home">
+          <span className="mark" aria-hidden="true"><i /><i /><i /></span>
           <strong>Solas Redact</strong>
-          <span className="tag">v{VERSION}</span>
-        </div>
-        <nav aria-label="Steps" className="steps">
-          {STEPS.map((s, i) => (
-            <button
-              key={s.id}
-              className={`step ${s.id === step ? "on" : ""} ${i < idx ? "past" : ""}`}
-              aria-current={s.id === step ? "step" : undefined}
-              disabled={running || scan.busy || (s.id !== "files" && ready.length === 0) || (s.id === "results" && !results.length) || (s.id === "review" && !ready.some((e) => e.scanned))}
-              onClick={() => go(s.id)}
-            >
-              {s.label}
-            </button>
-          ))}
-        </nav>
+        </a>
         <div className="top-right">
-          <a href="/docs/" target="_blank" rel="noreferrer">Guide</a>
+          <span className="local"><i aria-hidden="true" />Files stay on this device</span>
+          <a href="/docs/" target="_blank" rel="noreferrer">Help</a>
           {entries.length > 0 && !running && (
-            <button className="link" onClick={() => confirm("Remove all files from Solas Redact and start again? Your original files on disk are not touched.") && startAgain()}>
+            <button className="link" onClick={() => confirm("Remove all files and start again? Your originals are not touched.") && startAgain()}>
               Start again
             </button>
           )}
         </div>
       </header>
 
-      <p className="privacy" role="note">
-        Your files stay on this computer. Nothing is uploaded. Solas Redact makes new copies and never changes the originals.
-      </p>
-
       <main>
-        {step === "files" && <FilesStep entries={entries} onAdd={addFiles} onRemove={removeFile} onPassword={(id, pw) => { const e = entriesRef.current.find((x) => x.id === id); if (e) { patch(id, { status: "loading" }); load(id, e.file, pw); } }} onNext={() => go("rules")} />}
-        {step === "rules" && <RulesStep settings={settings} onChange={setSettings} ready={ready} scan={scan} onFind={runScan} onCancel={() => (cancel.current.cancelled = true)} onBack={() => go("files")} />}
+        {step === "start" && <Start onAdd={start} />}
+        {step === "files" && <FilesStep entries={entries} onAdd={addFiles} onRemove={removeFile} onPassword={(id, pw) => { const e = entriesRef.current.find((x) => x.id === id); if (e) { patch(id, { status: "loading" }); load(id, e.file, pw); } }} onNext={() => go(mode === "scan" ? "rules" : "review")} />}
+        {step === "rules" && <RulesStep settings={settings} onChange={setSettings} ready={ready} scan={scan} onFind={runScan} onCancel={() => (cancel.current.cancelled = true)} onBack={() => go(ready.some((e) => e.scanned) ? "review" : "files")} onManual={() => { setMode("manual"); go("review"); }} />}
         {step === "review" && (
           <ReviewStep
             entries={ready}
-            settings={settings}
+            mode={mode}
             totals={totals}
             onChange={setRedactions}
-            onApprove={(id, v) => patch(id, { approved: v })}
-            onBack={() => go("rules")}
+            onSeen={onSeen}
+            onAdd={addFiles}
+            onScan={() => { setMode("scan"); go("rules"); }}
             onCreate={() => setConsent(true)}
           />
         )}
         {step === "results" && <ResultsStep results={results} running={running} report={report} text={reportText(report)} onStop={() => (cancel.current.cancelled = true)} onBack={() => go("review")} onAgain={startAgain} />}
       </main>
 
-      {consent && <Consent files={totals.files} hidden={totals.hidden} pages={totals.pages} quality={settings.quality} empty={ready.filter((e) => !e.redactions.some((r) => r.accepted)).map((e) => e.file.name)} onCancel={() => setConsent(false)} onConfirm={create} />}
+      {consent && <Consent files={totals.files} hidden={totals.hidden} pages={totals.pages} settings={settings} onChange={setSettings} empty={ready.filter((e) => !e.redactions.some((r) => r.accepted)).map((e) => e.file.name)} unseen={unseen} onCancel={() => setConsent(false)} onConfirm={create} />}
     </div>
   );
 }

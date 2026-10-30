@@ -10,10 +10,9 @@ Solas Redact hides names, numbers and other details in PDFs, pictures, Word .doc
 
 ## What it does
 
-1. Add files. Anything that is not a PDF is converted to one first.
-2. Say what to hide: words and names, and kinds of detail such as email addresses, Irish PPS numbers, Eircodes, IBANs, phone numbers and dates.
-3. Review every match as a black box on the page. Keep or hide each, or draw your own.
-4. Confirm that the redactions are permanent. Solas Redact makes `_REDACTED.pdf` copies, checks each one, and only then offers it for download.
+1. Choose to redact by hand, or to scan for words and kinds of detail such as email addresses, Irish PPS numbers, Eircodes, IBANs and phone numbers. Files that are not PDFs are converted first.
+2. Draw boxes on the page, or review every match as a black box and keep or hide each.
+3. Confirm that the redactions are permanent. Solas Redact makes `_REDACTED.pdf` copies, checks each one, and only then offers it for download.
 
 Up to seven checks run on every finished file (page count and size, no text, solid boxes, structure, metadata, a search of the raw bytes, and an optional re-reading of the pages). A copy that fails any check is discarded.
 
@@ -22,7 +21,7 @@ Up to seven checks run on every finished file (page count and size, no text, sol
 - The copy is made of page pictures. It cannot be searched or copied, so it does not suit filings that must be text-searchable.
 - Text recognition is English only and can misread. You review every match.
 - Word files are converted as plain text. Excel, PowerPoint, Outlook .msg and older .doc files must be saved as PDF first.
-- Tested in Chrome on Windows only.
+- Tested on Windows only, in Chrome, Edge, Brave and Firefox.
 
 See [docs/limits.md](docs/limits.md) for the full list.
 
