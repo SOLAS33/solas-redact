@@ -9,6 +9,7 @@ import { PDFDocument } from "pdf-lib";
 import { join } from "node:path";
 import type { ElementHandle } from "puppeteer-core";
 import puppeteer from "puppeteer-core";
+import { VERSION } from "../../src/version";
 
 const base = process.argv[2] ?? "https://redact.solas33.com";
 const root = join(import.meta.dirname, "..", "..");
@@ -50,7 +51,7 @@ await p.evaluate(() => (document.querySelector(".res .dl") as HTMLElement).click
 for (let i = 0; i < 30 && !existsSync(join(dl, "notes_REDACTED.pdf")); i++) await new Promise((r) => setTimeout(r, 400));
 const out = existsSync(join(dl, "notes_REDACTED.pdf")) ? readFileSync(join(dl, "notes_REDACTED.pdf")).toString("latin1") : "";
 const producer = out ? (await PDFDocument.load(readFileSync(join(dl, "notes_REDACTED.pdf")), { updateMetadata: false })).getProducer() : "";
-check(out.startsWith("%PDF") && producer === "Solas Redact 1.0.0", `the downloaded file is a PDF produced by "${producer}"`);
+check(out.startsWith("%PDF") && producer === `Solas Redact ${VERSION}`, `the downloaded file is a PDF produced by "${producer}"`);
 check(!out.toLowerCase().includes("murphy") && !out.includes("1234567TA"), "the hidden name and PPS number are not in the file");
 const own = new URL(base).host;
 check([...hosts].every((h) => h === own || h === ""), `every request went to ${own} (${[...hosts].join(", ")})`);
