@@ -26,7 +26,7 @@ export function Consent({ files, hidden, pages, empty, onCancel, onConfirm }: Pr
       <div className="modal" role="dialog" aria-modal="true" aria-labelledby="h-consent" ref={ref}>
         <h2 id="h-consent">Make permanent redacted copies?</h2>
         <p>
-          Ebon will make {files} new PDF{files === 1 ? "" : "s"} from {pages} page{pages === 1 ? "" : "s"}, hiding {hidden} item{hidden === 1 ? "" : "s"}.
+          Solas Redact will make {files} new PDF{files === 1 ? "" : "s"} from {pages} page{pages === 1 ? "" : "s"}, hiding {hidden} item{hidden === 1 ? "" : "s"}.
         </p>
         {empty.length > 0 && (
           <p className="note" role="alert">
@@ -37,8 +37,8 @@ export function Consent({ files, hidden, pages, empty, onCancel, onConfirm }: Pr
         <ul className="consent-list">
           <li><strong>The black boxes are permanent.</strong> The text and pictures under them are deleted from the copy. Nobody, including you, can bring them back from the copy.</li>
           <li><strong>The whole copy becomes page pictures.</strong> You cannot select, search or copy text in it, and links, forms, comments, bookmarks and attachments are gone.</li>
-          <li><strong>Your original files are not changed.</strong> Ebon only makes new files, named with _REDACTED. Keep the originals if you may need them.</li>
-          <li><strong>Check the result before you send it.</strong> Ebon checks each copy, but you are the one who decides what is safe to share.</li>
+          <li><strong>Your original files are not changed.</strong> Solas Redact only makes new files, named with _REDACTED. Keep the originals if you may need them.</li>
+          <li><strong>Check the result before you send it.</strong> Solas Redact checks each copy, but you are the one who decides what is safe to share.</li>
         </ul>
         <label className="consent-check">
           <input type="checkbox" checked={ok} onChange={(e) => setOk(e.target.checked)} /> I understand that the redactions in the copies are permanent.

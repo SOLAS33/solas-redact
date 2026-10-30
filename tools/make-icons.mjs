@@ -31,5 +31,5 @@ for (const [name, size, maskable] of jobs) {
   writeFileSync(`public/icons/${name}`, buf);
   console.log("wrote", name);
 }
-writeFileSync("public/icons/ebon.svg", svg(false));
+writeFileSync("public/icons/solas-redact.svg", svg(false));
 await browser.close();

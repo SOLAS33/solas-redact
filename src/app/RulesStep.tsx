@@ -24,7 +24,7 @@ export function RulesStep({ settings, onChange, ready, scan, onFind, onCancel, o
     <section className="panel" aria-labelledby="h-rules">
       <h1 id="h-rules">What to hide</h1>
       <p className="lead">
-        Type the words to hide, one per line, and tick the kinds of details to look for. Ebon marks every match in all {ready.length} file{ready.length === 1 ? "" : "s"}. You review each one before anything is made.
+        Type the words to hide, one per line, and tick the kinds of details to look for. Solas Redact marks every match in all {ready.length} file{ready.length === 1 ? "" : "s"}. You review each one before anything is made.
         You can also skip this and draw boxes by hand in the next step.
       </p>
 
@@ -79,7 +79,7 @@ export function RulesStep({ settings, onChange, ready, scan, onFind, onCancel, o
         <label title="Reads text from pages that are pictures, so they can be searched. Slower. English only in this version.">
           <input type="checkbox" checked={settings.ocr} onChange={(e) => set("ocr", e.target.checked)} /> Read scanned pages and pictures (English text recognition)
         </label>
-        <label title="After the copy is made, Ebon reads the finished pages again and looks for the hidden words. Slower.">
+        <label title="After the copy is made, Solas Redact reads the finished pages again and looks for the hidden words. Slower.">
           <input type="checkbox" checked={settings.deep} onChange={(e) => set("deep", e.target.checked)} /> Read the finished pages to check nothing shows through
         </label>
       </div>

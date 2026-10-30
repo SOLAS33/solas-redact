@@ -1,6 +1,6 @@
 ---
 title: Research and citation
-description: Why black boxes over PDF text fail, what studies found, how to cite Ebon, and the sources used on this site.
+description: Why black boxes over PDF text fail, what studies found, how to cite Solas Redact, and the sources used on this site.
 order: 10
 ---
 
@@ -15,17 +15,17 @@ A black rectangle drawn over text in a PDF hides the text from the eye and leave
 
 Both pages were fetched and checked when this page was written, on {{built}}.
 
-### What Ebon takes from them
+### What Solas Redact takes from them
 
-- The safest method is the one that leaves nothing to find. Ebon builds a new file from page pictures, which is the digital form of print, black out and scan.
-- The result must be checked, not assumed. Ebon checks every copy, and the test suite checks the downloaded files with separate code.
-- The cost of the method is a copy with no text layer. That is a real cost where text-searchable files are required, and Ebon says so in its [limits](/docs/limits/).
+- The safest method is the one that leaves nothing to find. Solas Redact builds a new file from page pictures, which is the digital form of print, black out and scan.
+- The result must be checked, not assumed. Solas Redact checks every copy, and the test suite checks the downloaded files with separate code.
+- The cost of the method is a copy with no text layer. That is a real cost where text-searchable files are required, and Solas Redact says so in its [limits](/docs/limits/).
 
-## How to cite Ebon
+## How to cite Solas Redact
 
 Please give the version, the date you used it and the address of the source code.
 
-> Solas33. *Ebon: permanent redaction in the browser*, version {{version}}. 2026. {{repo}}
+> Solas33. *Solas Redact: permanent redaction in the browser*, version {{version}}. 2026. {{repo}}
 
 A machine-readable [CITATION.cff]({{repo}}/blob/main/CITATION.cff) is in the repository. If you cite a figure from this site, such as the number of tests, give the page and the date it was built ({{built}}), because the figures change with each version. The [changelog](/docs/changelog/) lists every version.
 

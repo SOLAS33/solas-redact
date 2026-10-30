@@ -98,8 +98,8 @@ export async function flatten(doc: SourceDoc, redactions: Redaction[], q: Qualit
     await new Promise((r) => setTimeout(r, 0));
   }
   const now = new Date();
-  out.setProducer(`Ebon ${VERSION}`);
-  out.setCreator("Ebon");
+  out.setProducer(`Solas Redact ${VERSION}`);
+  out.setCreator("Solas Redact");
   out.setCreationDate(now);
   out.setModificationDate(now);
   const bytes = await out.save({ useObjectStreams: false });

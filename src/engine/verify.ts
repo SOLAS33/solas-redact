@@ -109,7 +109,7 @@ function structureCheck(doc: PDFDocument, expectedPages: number): Check[] {
       id: "metadata",
       label: "No original metadata is carried over",
       ok: infoProblems.length === 0,
-      detail: infoProblems.length ? `Unexpected entries: ${infoProblems.join(", ")}` : "Only the Ebon producer name and the new file dates are present",
+      detail: infoProblems.length ? `Unexpected entries: ${infoProblems.join(", ")}` : "Only the Solas Redact producer name and the new file dates are present",
     },
   ];
 }

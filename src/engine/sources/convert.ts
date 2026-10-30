@@ -150,5 +150,5 @@ export async function openAny(file: File, bytes: Uint8Array, password?: string):
   if (known) {
     throw new Unsupported(`${known} cannot be converted here yet. Open it in its own program, choose Save as PDF (or Print, then Microsoft Print to PDF), and add the PDF instead.`);
   }
-  throw new Unsupported("Ebon cannot read this kind of file. Accepted: PDF, pictures (PNG, JPEG, WebP, GIF, BMP), Word .docx, email .eml, and text files.");
+  throw new Unsupported("Solas Redact cannot read this kind of file. Accepted: PDF, pictures (PNG, JPEG, WebP, GIF, BMP), Word .docx, email .eml, and text files.");
 }

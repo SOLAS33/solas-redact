@@ -1,6 +1,6 @@
 {
-  "name": "Ebon",
-  "short_name": "Ebon",
+  "name": "Solas Redact",
+  "short_name": "Solas Redact",
   "description": "Permanent redaction of PDFs and other documents. Files never leave the computer.",
   "id": "/app/",
   "start_url": "/app/",

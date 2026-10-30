@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     concurrency:
-      group: ebon-deploy
+      group: solas-redact-deploy
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4

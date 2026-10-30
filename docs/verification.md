@@ -1,10 +1,10 @@
 ---
 title: The checks on every copy
-description: What Ebon checks in each finished file before it can be downloaded, and what those checks cannot show.
+description: What Solas Redact checks in each finished file before it can be downloaded, and what those checks cannot show.
 order: 3
 ---
 
-Ebon checks every copy after making it. A copy that fails any check is discarded and cannot be downloaded. The checks run in the browser on the finished file, not on the data used to make it.
+Solas Redact checks every copy after making it. A copy that fails any check is discarded and cannot be downloaded. The checks run in the browser on the finished file, not on the data used to make it.
 
 ## The checks
 

@@ -28,7 +28,7 @@ Never attach real documents or real personal data. Make a small test document wi
 
 ## Licence of contributions
 
-Ebon is MIT licensed. By opening a pull request you agree that your contribution is licensed under the same terms (this is how GitHub's terms work for a repository with a licence notice). You keep your copyright. If you add a dependency, run `npm run licences` and make sure its licence is permissive (MIT, BSD, ISC, Apache-2.0 or similar). Do not add copyleft code, or fonts or data with unclear terms.
+Solas Redact is MIT licensed. By opening a pull request you agree that your contribution is licensed under the same terms (this is how GitHub's terms work for a repository with a licence notice). You keep your copyright. If you add a dependency, run `npm run licences` and make sure its licence is permissive (MIT, BSD, ISC, Apache-2.0 or similar). Do not add copyleft code, or fonts or data with unclear terms.
 
 ## Writing style
 

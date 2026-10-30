@@ -8,7 +8,7 @@ import { join, relative } from "node:path";
 function precacheList(): Plugin {
   let outDir = "dist";
   return {
-    name: "ebon-precache",
+    name: "solas-redact-precache",
     apply: "build",
     configResolved(c) {
       outDir = c.build.outDir;

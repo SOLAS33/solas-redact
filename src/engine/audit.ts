@@ -36,13 +36,13 @@ export async function sha256(data: ArrayBuffer | Uint8Array): Promise<string> {
 }
 
 export function makeReport(files: FileRecord[], settings: Report["settings"]): Report {
-  return { tool: "Ebon", version: VERSION, source: REPO_URL, createdAt: new Date().toISOString(), settings, files };
+  return { tool: "Solas Redact", version: VERSION, source: REPO_URL, createdAt: new Date().toISOString(), settings, files };
 }
 
 export function reportText(r: Report): string {
   const L: string[] = [];
-  L.push(`Ebon redaction report`);
-  L.push(`Made ${r.createdAt} with Ebon ${r.version} (${r.source})`);
+  L.push(`Solas Redact redaction report`);
+  L.push(`Made ${r.createdAt} with Solas Redact ${r.version} (${r.source})`);
   L.push(`Page resolution ${r.settings.dpi} dpi, JPEG quality ${r.settings.jpegQuality}, text recognition for scanned pages ${r.settings.ocr ? "on" : "off"}, deep check ${r.settings.deepCheck ? "on" : "off"}`);
   L.push(`This report lists counts and file fingerprints only. It does not contain the text that was hidden.`);
   L.push("");

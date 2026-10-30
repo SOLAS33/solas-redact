@@ -267,7 +267,7 @@ for (const n of names) {
 }
 await clickButton(page, "Download all as a zip file");
 await clickButton(page, "Download the report");
-for (let i = 0; i < 60 && !(existsSync(join(downloads, "Ebon-redacted-copies.zip")) && existsSync(join(downloads, "Ebon-report.txt"))); i++) await sleep(500);
+for (let i = 0; i < 60 && !(existsSync(join(downloads, "Solas-Redact-copies.zip")) && existsSync(join(downloads, "Solas-Redact-report.txt"))); i++) await sleep(500);
 await sleep(1000);
 const got = readdirSync(downloads).filter((f) => !f.endsWith(".crdownload"));
 check(names.every((n) => got.includes(n)), "all copies were downloaded", got.join(", "));
@@ -299,7 +299,7 @@ for (const n of names) {
   check(leaked.length === 0, `${n}: none of the secrets or original metadata are in the raw file`, leaked.join(", "));
   const lib = await PDFDocument.load(buf, { updateMetadata: false });
   check(lib.getTitle() === undefined && lib.getAuthor() === undefined && lib.getSubject() === undefined && lib.getKeywords() === undefined, `${n}: no title, author, subject or keywords`);
-  check((lib.getProducer() ?? "").startsWith("Ebon "), `${n}: producer is Ebon`, lib.getProducer() ?? "");
+  check((lib.getProducer() ?? "").startsWith("Solas Redact "), `${n}: producer is Solas Redact`, lib.getProducer() ?? "");
   check(lib.context.trailerInfo.Encrypt === undefined && !lib.catalog.has(PDFName.of("Names")), `${n}: no names tree, attachments or encryption`);
 }
 const contractOut = readFileSync(join(downloads, "contract_REDACTED.pdf"));
@@ -357,17 +357,17 @@ async function coverage(src: string, out: string, rect: [number, number, number,
   check(Math.round(sz.width) === 792 && Math.round(sz.height) === 612, "the quarter-turn page keeps its shape (792 x 612)", JSON.stringify(sz));
 }
 
-const zip = unzipSync(new Uint8Array(readFileSync(join(downloads, "Ebon-redacted-copies.zip"))));
+const zip = unzipSync(new Uint8Array(readFileSync(join(downloads, "Solas-Redact-copies.zip"))));
 const zipNames = Object.keys(zip);
-check(names.every((n) => zipNames.includes(n)) && zipNames.includes("Ebon-report.txt") && zipNames.includes("Ebon-report.json"), "zip holds the copies and both reports", zipNames.join(", "));
-const reportTxt = strFromU8(zip["Ebon-report.txt"]);
-const reportJson = JSON.parse(strFromU8(zip["Ebon-report.json"]));
+check(names.every((n) => zipNames.includes(n)) && zipNames.includes("Solas-Redact-report.txt") && zipNames.includes("Solas-Redact-report.json"), "zip holds the copies and both reports", zipNames.join(", "));
+const reportTxt = strFromU8(zip["Solas-Redact-report.txt"]);
+const reportJson = JSON.parse(strFromU8(zip["Solas-Redact-report.json"]));
 check(forbidden.every((s) => !reportTxt.includes(s) && !JSON.stringify(reportJson).includes(s)), "the report holds no hidden text");
 check(reportJson.files.length === 7 && reportJson.files.every((f: { verified: boolean; originalSha256: string }) => f.verified && f.originalSha256.length === 64), "the report lists seven verified files with fingerprints");
 const c0 = reportJson.files.find((f: { original: string }) => f.original === "contract.pdf");
 check(createHash("sha256").update(contractOut).digest("hex") === c0.outputSha256, "the report's fingerprint matches the downloaded file");
 check(c0.originalSha256 === originalHashes[0], "the report's original fingerprint matches the original file");
-check(readFileSync(join(downloads, "Ebon-report.txt"), "utf8").includes("ALL PASSED"), "the plain text report says all checks passed");
+check(readFileSync(join(downloads, "Solas-Redact-report.txt"), "utf8").includes("ALL PASSED"), "the plain text report says all checks passed");
 
 // ---- 8. privacy ----
 const origin = new URL(base).origin;
@@ -379,8 +379,8 @@ const stores = await page.evaluate(async () => ({
   idb: ((await (indexedDB as unknown as { databases(): Promise<unknown[]> }).databases?.()) ?? []).length,
 }));
 check(stores.ls === 0 && stores.ss === 0 && stores.idb === 0, "nothing is kept in local storage, session storage or IndexedDB", JSON.stringify(stores));
-const foreignCaches = await page.evaluate(async () => (await caches.keys()).filter((k: string) => !k.startsWith("ebon-")).length);
-check(foreignCaches === 0, "only Ebon's own app caches exist");
+const foreignCaches = await page.evaluate(async () => (await caches.keys()).filter((k: string) => !k.startsWith("solas-redact-")).length);
+check(foreignCaches === 0, "only Solas Redact's own app caches exist");
 const docCache = await page.evaluate(async () => {
   let n = 0;
   for (const k of await caches.keys()) for (const r of await (await caches.open(k)).keys()) if (/\.pdf|contract|notes|REDACTED/i.test(new URL(r.url).pathname)) n++;

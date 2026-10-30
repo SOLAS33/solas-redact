@@ -49,7 +49,7 @@ export function App() {
           patch(id, { status: "ready", doc, sha, pages: doc.pageCount, notes: doc.notes, error: undefined, wrongPassword: false });
         } catch (e) {
           if (e instanceof PasswordNeeded) patch(id, { status: "password", wrongPassword: e.wrong });
-          else patch(id, { status: "error", error: e instanceof Unsupported ? e.message : `Ebon could not open this file. ${(e as Error)?.message ?? ""}`.trim() });
+          else patch(id, { status: "error", error: e instanceof Unsupported ? e.message : `Solas Redact could not open this file. ${(e as Error)?.message ?? ""}`.trim() });
         }
       });
     },
@@ -203,9 +203,9 @@ export function App() {
   return (
     <div className="shell">
       <header className="top">
-        <div className="brand" aria-label="Ebon">
+        <div className="brand" aria-label="Solas Redact">
           <span className="mark" aria-hidden="true" />
-          <strong>Ebon</strong>
+          <strong>Solas Redact</strong>
           <span className="tag">v{VERSION}</span>
         </div>
         <nav aria-label="Steps" className="steps">
@@ -224,7 +224,7 @@ export function App() {
         <div className="top-right">
           <a href="/docs/" target="_blank" rel="noreferrer">Guide</a>
           {entries.length > 0 && !running && (
-            <button className="link" onClick={() => confirm("Remove all files from Ebon and start again? Your original files on disk are not touched.") && startAgain()}>
+            <button className="link" onClick={() => confirm("Remove all files from Solas Redact and start again? Your original files on disk are not touched.") && startAgain()}>
               Start again
             </button>
           )}
@@ -232,7 +232,7 @@ export function App() {
       </header>
 
       <p className="privacy" role="note">
-        Your files stay on this computer. Nothing is uploaded. Ebon makes new copies and never changes the originals.
+        Your files stay on this computer. Nothing is uploaded. Solas Redact makes new copies and never changes the originals.
       </p>
 
       <main>

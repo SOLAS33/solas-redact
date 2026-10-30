@@ -50,8 +50,8 @@ let baseline: string | null = null;
 async function baselineBytes(): Promise<string> {
   if (baseline === null) {
     const d = await PDFDocument.create({ updateMetadata: false });
-    d.setProducer(`Ebon ${VERSION}`);
-    d.setCreator("Ebon");
+    d.setProducer(`Solas Redact ${VERSION}`);
+    d.setCreator("Solas Redact");
     d.addPage([100, 100]);
     const b = await d.save({ useObjectStreams: false });
     baseline = new TextDecoder("latin1").decode(b).toLowerCase();

@@ -33,37 +33,37 @@ PASS  all copies were downloaded
 PASS  contract_REDACTED.pdf: no text and no annotations when read by another build of the reader
 PASS  contract_REDACTED.pdf: none of the secrets or original metadata are in the raw file
 PASS  contract_REDACTED.pdf: no title, author, subject or keywords
-PASS  contract_REDACTED.pdf: producer is Ebon
+PASS  contract_REDACTED.pdf: producer is Solas Redact
 PASS  contract_REDACTED.pdf: no names tree, attachments or encryption
 PASS  scan_REDACTED.pdf: no text and no annotations when read by another build of the reader
 PASS  scan_REDACTED.pdf: none of the secrets or original metadata are in the raw file
 PASS  scan_REDACTED.pdf: no title, author, subject or keywords
-PASS  scan_REDACTED.pdf: producer is Ebon
+PASS  scan_REDACTED.pdf: producer is Solas Redact
 PASS  scan_REDACTED.pdf: no names tree, attachments or encryption
 PASS  scan-png_REDACTED.pdf: no text and no annotations when read by another build of the reader
 PASS  scan-png_REDACTED.pdf: none of the secrets or original metadata are in the raw file
 PASS  scan-png_REDACTED.pdf: no title, author, subject or keywords
-PASS  scan-png_REDACTED.pdf: producer is Ebon
+PASS  scan-png_REDACTED.pdf: producer is Solas Redact
 PASS  scan-png_REDACTED.pdf: no names tree, attachments or encryption
 PASS  notes_REDACTED.pdf: no text and no annotations when read by another build of the reader
 PASS  notes_REDACTED.pdf: none of the secrets or original metadata are in the raw file
 PASS  notes_REDACTED.pdf: no title, author, subject or keywords
-PASS  notes_REDACTED.pdf: producer is Ebon
+PASS  notes_REDACTED.pdf: producer is Solas Redact
 PASS  notes_REDACTED.pdf: no names tree, attachments or encryption
 PASS  mail_REDACTED.pdf: no text and no annotations when read by another build of the reader
 PASS  mail_REDACTED.pdf: none of the secrets or original metadata are in the raw file
 PASS  mail_REDACTED.pdf: no title, author, subject or keywords
-PASS  mail_REDACTED.pdf: producer is Ebon
+PASS  mail_REDACTED.pdf: producer is Solas Redact
 PASS  mail_REDACTED.pdf: no names tree, attachments or encryption
 PASS  letter_REDACTED.pdf: no text and no annotations when read by another build of the reader
 PASS  letter_REDACTED.pdf: none of the secrets or original metadata are in the raw file
 PASS  letter_REDACTED.pdf: no title, author, subject or keywords
-PASS  letter_REDACTED.pdf: producer is Ebon
+PASS  letter_REDACTED.pdf: producer is Solas Redact
 PASS  letter_REDACTED.pdf: no names tree, attachments or encryption
 PASS  rotated_REDACTED.pdf: no text and no annotations when read by another build of the reader
 PASS  rotated_REDACTED.pdf: none of the secrets or original metadata are in the raw file
 PASS  rotated_REDACTED.pdf: no title, author, subject or keywords
-PASS  rotated_REDACTED.pdf: producer is Ebon
+PASS  rotated_REDACTED.pdf: producer is Solas Redact
 PASS  rotated_REDACTED.pdf: no names tree, attachments or encryption
 PASS  contract copy has 3 pages
 PASS  every original file is byte for byte unchanged
@@ -78,7 +78,7 @@ PASS  the report's original fingerprint matches the original file
 PASS  the plain text report says all checks passed
 PASS  every request went to our own address
 PASS  nothing is kept in local storage, session storage or IndexedDB
-PASS  only Ebon's own app caches exist
+PASS  only Solas Redact's own app caches exist
 PASS  no document is in any cache
 PASS  no console errors or security policy violations
 PASS  the app opens again with no connection

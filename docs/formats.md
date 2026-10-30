@@ -1,6 +1,6 @@
 ---
 title: File types
-description: Which files Ebon accepts, how each is converted to PDF, and what the conversion changes.
+description: Which files Solas Redact accepts, how each is converted to PDF, and what the conversion changes.
 order: 4
 ---
 
@@ -16,11 +16,11 @@ Every file ends up as a redacted PDF. A PDF is used as it is. Other accepted fil
 | Email | .eml | Main headers (From, To, Cc, Bcc, Subject, Date) and the readable body | Other headers, attachments and formatting are left out. Attachment names are listed in a note so you can redact the attachments separately |
 | Text | .txt .csv .tsv .log .md | Laid out in a fixed-width font on A4 pages | Long lines wrap. Files over 6 MB are refused. Text in UTF-8, UTF-16 with a mark, or Windows-1252 is read |
 
-Converted pages are A4. A very long text file is cut after 1,500 pages and Ebon says so.
+Converted pages are A4. A very long text file is cut after 1,500 pages and Solas Redact says so.
 
 ## Not accepted yet
 
-Ebon refuses these with a plain message and does not upload them anywhere.
+Solas Redact refuses these with a plain message and does not upload them anywhere.
 
 | Type | What to do |
 |---|---|
@@ -33,8 +33,8 @@ Exporting from the original program is the better route for Office files anyway.
 
 ## Checking a converted file
 
-A converted file is a new document and may not look the same as the original. Ebon shows a note under each converted file in the list. Read the converted pages in the review step before you make the copy.
+A converted file is a new document and may not look the same as the original. Solas Redact shows a note under each converted file in the list. Read the converted pages in the review step before you make the copy.
 
 ## Hidden content in the original
 
-A converted Word or email file is a new document built from the text Ebon reads. Whatever Ebon does not read does not reach the PDF. We have not tested which hidden Word content the reader skips, such as deleted text in tracked changes or comments, so do not count on conversion to remove it. If the original holds sensitive hidden content, do not send the original. Send the redacted PDF only.
+A converted Word or email file is a new document built from the text Solas Redact reads. Whatever Solas Redact does not read does not reach the PDF. We have not tested which hidden Word content the reader skips, such as deleted text in tracked changes or comments, so do not count on conversion to remove it. If the original holds sensitive hidden content, do not send the original. Send the redacted PDF only.

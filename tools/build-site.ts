@@ -11,7 +11,7 @@ import { REPO_URL, VERSION } from "../src/version";
 
 const root = join(import.meta.dirname, "..");
 const dist = join(root, "dist");
-const SITE = process.env.SITE_URL ?? "https://ebon.solas33.com";
+const SITE = process.env.SITE_URL ?? "https://redact.solas33.com";
 const BUILT = new Date().toISOString().slice(0, 10);
 
 const read = (p: string) => readFileSync(join(root, p), "utf8");
@@ -105,7 +105,7 @@ const docs: Doc[] = readdirSync(join(root, "docs"))
   .sort((a, b) => a.order - b.order);
 
 const NAV = [
-  ["/app/", "Open Ebon"],
+  ["/app/", "Open Solas Redact"],
   ["/docs/guide/", "Guide"],
   ["/docs/privacy/", "Privacy"],
   ["/docs/licence/", "Licence"],
@@ -137,13 +137,13 @@ function shell(opts: { title: string; description: string; path: string; body: s
 </head>
 <body>
 <a class="skip" href="#main">Skip to the content</a>
-<header class="site"><div class="wrap"><a class="brand" href="/"><img src="/icons/icon-192.png" alt="" width="30" height="30">Ebon</a><nav aria-label="Main">${nav}</nav></div></header>
+<header class="site"><div class="wrap"><a class="brand" href="/"><img src="/icons/icon-192.png" alt="" width="30" height="30">Solas Redact</a><nav aria-label="Main">${nav}</nav></div></header>
 <main id="main"><div class="wrap">${main}</div></main>
 <footer class="site"><div class="wrap">
-<span>Ebon ${VERSION}. Free and open source under the MIT licence.</span>
+<span>Solas Redact ${VERSION}. Free and open source under the MIT licence.</span>
 <a href="${REPO_URL}">Source code</a>
 <a href="/docs/changelog/">Changelog</a>
-<a href="/docs/research/#how-to-cite-ebon">How to cite</a>
+<a href="/docs/research/#how-to-cite-solas-redact">How to cite</a>
 <a href="/third-party-notices.txt">Third-party notices</a>
 <a href="${REPO_URL}/issues">Report a problem</a>
 </div></footer>
@@ -173,7 +173,7 @@ if (existsSync(img)) {
   const hero = `<section class="hero">
 <h1>${esc(meta.headline)}</h1>
 <p class="lede">${esc(meta.lede)}</p>
-<p class="cta"><a class="btn primary" href="/app/">Open Ebon</a><a class="btn" href="/docs/guide/">Read the guide</a><a class="btn" href="${REPO_URL}">Get the source code</a></p>
+<p class="cta"><a class="btn primary" href="/app/">Open Solas Redact</a><a class="btn" href="/docs/guide/">Read the guide</a><a class="btn" href="${REPO_URL}">Get the source code</a></p>
 </section>`;
   writeFileSync(join(dist, "index.html"), shell({ title: meta.title, description: meta.description, path: "/", body: hero + html }));
 }
@@ -182,15 +182,15 @@ if (existsSync(img)) {
 for (const d of docs) {
   const html = marked.parse(fill(d.body), { async: false }) as string;
   const body = `<h1>${esc(d.title)}</h1><p class="meta">Version ${VERSION}. Page built ${BUILT}.</p>${html}`;
-  write(`docs/${d.slug}`, shell({ title: `${d.title} | Ebon`, description: d.description, path: `/docs/${d.slug}/`, body, docs: true }));
+  write(`docs/${d.slug}`, shell({ title: `${d.title} | Solas Redact`, description: d.description, path: `/docs/${d.slug}/`, body, docs: true }));
 }
 {
   const list = docs.map((d) => `<li><a href="/docs/${d.slug}/">${esc(d.title)}</a>. ${esc(d.description)}</li>`).join("\n");
-  const body = `<h1>Documentation</h1><p>How Ebon works, what it checks, what it cannot do, and the licence terms. Written for the people who use it and for those who need to rely on it.</p><ul>${list}</ul>`;
-  write("docs", shell({ title: "Documentation | Ebon", description: "Guide, method, privacy, licence, limits and test results for Ebon.", path: "/docs/", body, docs: true }));
+  const body = `<h1>Documentation</h1><p>How Solas Redact works, what it checks, what it cannot do, and the licence terms. Written for the people who use it and for those who need to rely on it.</p><ul>${list}</ul>`;
+  write("docs", shell({ title: "Documentation | Solas Redact", description: "Guide, method, privacy, licence, limits and test results for Solas Redact.", path: "/docs/", body, docs: true }));
 }
 
-writeFileSync(join(dist, "404.html"), shell({ title: "Page not found | Ebon", description: "This page does not exist.", path: "/404", body: `<section class="hero"><h1>Page not found</h1><p class="lede">Try the <a href="/docs/">documentation</a> or <a href="/app/">open Ebon</a>.</p></section>` }));
+writeFileSync(join(dist, "404.html"), shell({ title: "Page not found | Solas Redact", description: "This page does not exist.", path: "/404", body: `<section class="hero"><h1>Page not found</h1><p class="lede">Try the <a href="/docs/">documentation</a> or <a href="/app/">open Solas Redact</a>.</p></section>` }));
 const urls = ["/", "/app/", "/docs/", ...docs.map((d) => `/docs/${d.slug}/`)];
 writeFileSync(join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${BUILT}</lastmod></url>`).join("\n")}\n</urlset>\n`);
 writeFileSync(join(dist, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);

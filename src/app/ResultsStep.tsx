@@ -20,15 +20,15 @@ export function ResultsStep({ results, running, report, text, onStop, onBack, on
   const done = results.filter((r) => r.status === "done" && r.blob);
   const failed = results.filter((r) => r.status === "failed");
   const reportFiles = () => [
-    { name: "Ebon-report.txt", text },
-    { name: "Ebon-report.json", text: JSON.stringify(report, null, 2) },
+    { name: "Solas-Redact-report.txt", text },
+    { name: "Solas-Redact-report.json", text: JSON.stringify(report, null, 2) },
   ];
 
   const zipAll = async () => {
     setMsg("Packing the zip file");
     try {
       const blob = await zipBlobs([...done.map((r) => ({ name: r.outName!, blob: r.blob! })), ...reportFiles()]);
-      download(blob, "Ebon-redacted-copies.zip");
+      download(blob, "Solas-Redact-copies.zip");
       setMsg("");
     } catch (e) {
       setMsg(`Could not make the zip file: ${(e as Error).message}. Download the files one at a time instead.`);
@@ -99,14 +99,14 @@ export function ResultsStep({ results, running, report, text, onStop, onBack, on
             <button className="btn" onClick={onBack}>Back to review</button>
             {done.length > 0 && <button className="btn primary" onClick={zipAll}>Download all as a zip file</button>}
             {done.length > 0 && canSaveToFolder() && <button className="btn" onClick={toFolder}>Save to a folder</button>}
-            <button className="btn" onClick={() => download(new Blob([text], { type: "text/plain" }), "Ebon-report.txt")}>Download the report</button>
+            <button className="btn" onClick={() => download(new Blob([text], { type: "text/plain" }), "Solas-Redact-report.txt")}>Download the report</button>
           </div>
           {msg && <p role="status" className="note">{msg}</p>}
           <p className="muted small">
             The report lists file names, page counts, how many items were hidden by each rule, and a SHA-256 fingerprint of each original and each copy. It does not contain any of the hidden text.
           </p>
           <div className="actions">
-            <button className="btn" onClick={() => confirm("Remove everything from Ebon? Copies you have not downloaded will be lost.") && onAgain()}>Finish and clear everything</button>
+            <button className="btn" onClick={() => confirm("Remove everything from Solas Redact? Copies you have not downloaded will be lost.") && onAgain()}>Finish and clear everything</button>
           </div>
         </>
       )}

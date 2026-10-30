@@ -1,6 +1,6 @@
 ---
 title: Changelog
-description: Every version of Ebon, what changed, and corrections to published statements.
+description: Every version of Solas Redact, what changed, and corrections to published statements.
 order: 12
 ---
 

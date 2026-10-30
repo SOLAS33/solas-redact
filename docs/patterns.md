@@ -1,6 +1,6 @@
 ---
 title: Built-in patterns
-description: The kinds of detail Ebon can look for, what each pattern matches, and where it can be wrong.
+description: The kinds of detail Solas Redact can look for, what each pattern matches, and where it can be wrong.
 order: 5
 ---
 

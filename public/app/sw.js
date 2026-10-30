@@ -1,12 +1,12 @@
 /*
- * Ebon service worker.
+ * Solas Redact service worker.
  *  - Keeps the app itself (the files listed below) so it opens with no connection.
  *  - Keeps the optional big files (PDF fonts, text recognition engine and English data) the first time they are used.
  *  - Never sees, stores or sends your documents: it only handles GET requests for the app's own files.
  */
 const VERSION = "__VERSION__";
-const SHELL_CACHE = "ebon-shell-" + VERSION;
-const VENDOR_CACHE = "ebon-vendor-1";
+const SHELL_CACHE = "solas-redact-shell-" + VERSION;
+const VENDOR_CACHE = "solas-redact-vendor-1";
 const SHELL = /*PRECACHE*/[];
 
 self.addEventListener("install", (event) => {
@@ -15,7 +15,7 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k.startsWith("ebon-shell-") && k !== SHELL_CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())
+    caches.keys().then((keys) => Promise.all(keys.filter((k) => k.startsWith("solas-redact-shell-") && k !== SHELL_CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())
   );
 });
 

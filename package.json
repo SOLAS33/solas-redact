@@ -1,8 +1,8 @@
 {
-  "name": "ebon",
+  "name": "solas-redact",
   "version": "1.0.0",
   "private": true,
-  "description": "Ebon: permanent PDF redaction in the browser. Files never leave the computer.",
+  "description": "Solas Redact: permanent PDF redaction in the browser. Files never leave the computer.",
   "type": "module",
   "license": "MIT",
   "scripts": {
@@ -43,10 +43,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SOLAS33/ebon.git"
+    "url": "git+https://github.com/SOLAS33/solas-redact.git"
   },
-  "homepage": "https://ebon.solas33.com/",
+  "homepage": "https://redact.solas33.com/",
   "bugs": {
-    "url": "https://github.com/SOLAS33/ebon/issues"
+    "url": "https://github.com/SOLAS33/solas-redact/issues"
   }
 }
