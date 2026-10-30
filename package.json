@@ -1,6 +1,6 @@
 {
   "name": "solas-redact",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Solas Redact: permanent PDF redaction in the browser. Files never leave the computer.",
   "type": "module",

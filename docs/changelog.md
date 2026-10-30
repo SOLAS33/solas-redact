@@ -4,6 +4,10 @@ description: Every version of Solas Redact, what changed, and corrections to pub
 order: 12
 ---
 
+## 1.0.1 (30 October 2026)
+
+- Fixed: on browsers older than about Chrome 145, a copy could not be finished. The file was refused with a technical error and nothing unsafe was offered. Solas Redact now uses the PDF library's build for older browsers, and all 89 browser checks pass in Chrome 130 as well as a current browser.
+
 ## 1.0.0 (30 October 2026)
 
 First release.

@@ -1,5 +1,6 @@
-import * as pdfjs from "pdfjs-dist/build/pdf.min.mjs";
-import workerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
+// The legacy build: the standard one needs a browser only months old (Map.getOrInsertComputed, Uint8Array.toHex).
+import * as pdfjs from "pdfjs-dist/legacy/build/pdf.min.mjs";
+import workerUrl from "pdfjs-dist/legacy/build/pdf.worker.min.mjs?url";
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
 
