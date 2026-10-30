@@ -84,16 +84,19 @@ export interface FindOptions {
 }
 
 export interface QualityPreset {
-  id: "standard" | "high" | "best";
+  id: "standard" | "high" | "best" | "bw";
   label: string;
   dpi: number;
   jpeg: number;
+  /** Store each page as a 1-bit black and white picture: far smaller for text, no greys or colour. */
+  bw?: boolean;
 }
 
 export const QUALITY: QualityPreset[] = [
   { id: "standard", label: "Standard (150 dpi, smallest files)", dpi: 150, jpeg: 0.82 },
   { id: "high", label: "High (200 dpi)", dpi: 200, jpeg: 0.86 },
   { id: "best", label: "Best (300 dpi, largest files)", dpi: 300, jpeg: 0.9 },
+  { id: "bw", label: "Black and white (300 dpi, smallest files for text)", dpi: 300, jpeg: 0, bw: true },
 ];
 
 export interface Check {

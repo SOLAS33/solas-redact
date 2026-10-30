@@ -397,6 +397,45 @@ await ex!.uploadFile(fx.notes);
 await off.waitForFunction(() => document.querySelectorAll(".file.ready").length === 1, { timeout: 30_000 }).catch(() => undefined);
 check((await off.$$(".file.ready")).length === 1, "a file can be opened with no connection");
 
+// ---- 10. black and white copies: 1-bit pages, much smaller, same checks ----
+{
+  const bw = await newPage();
+  const bwDir = join(out, "downloads-bw");
+  mkdirSync(bwDir);
+  await (await bw.createCDPSession()).send("Browser.setDownloadBehavior", { behavior: "allow", downloadPath: bwDir });
+  await bw.goto(`${base}/app/`);
+  await waitH1(bw, "Add the files");
+  await (await bw.$("input[type=file]"))!.uploadFile(fx.contract);
+  await bw.waitForSelector(".file.ready");
+  await clickButton(bw, "Choose what to hide");
+  await bw.type("#terms", SECRETS.name);
+  await bw.select("select", "bw");
+  await tickLabel(bw, "Email addresses");
+  await bw.evaluate(() => ([...document.querySelectorAll("label")].find((l) => l.textContent?.includes("Read the finished pages"))!.querySelector("input") as HTMLInputElement).click());
+  await clickButton(bw, "Find matches and review");
+  await waitH1(bw, "Review before anything is made", 120_000);
+  await clickButton(bw, "Mark all files as checked");
+  await clickButton(bw, "Create 1 redacted copy");
+  await bw.waitForSelector(".modal");
+  await bw.click(".modal input[type=checkbox]");
+  await clickButton(bw, "Make the copies");
+  await waitH1(bw, "Redacted copies", 300_000);
+  const done = await bw.$(".res.done");
+  check(!!done, "a black and white copy passes every check");
+  const size = await bw.$eval(".res .actions .muted", (e) => e.textContent ?? "");
+  check(/KB/.test(size) && parseInt(size, 10) < 150, `the black and white copy is small (${size})`);
+  await bw.evaluate(() => (document.querySelector(".res .btn.primary") as HTMLElement).click());
+  for (let i = 0; i < 40 && !existsSync(join(bwDir, "contract_REDACTED.pdf")); i++) await sleep(300);
+  await sleep(800);
+  const dup = existsSync(join(bwDir, "contract_REDACTED.pdf")) ? "contract_REDACTED.pdf" : undefined;
+  if (dup) {
+    const t = await textOf(readFileSync(join(bwDir, dup)));
+    check(t.chars === 0, "the black and white copy has no text layer");
+    const r = await coverage(fx.contract, join(bwDir, dup), [fx.geometry.x + (await helveticaWidth(fx.geometry.before, 12)) + 0.6, 700 - 2.52, fx.geometry.x + (await helveticaWidth(fx.geometry.before + fx.geometry.term, 12)) - 0.6, 700 + 8.64]);
+    check(r.ink > 80 && r.uncovered === 0, `the name is covered in the black and white copy (${r.ink} pixels, ${r.uncovered} uncovered)`);
+  } else check(false, "the black and white copy was downloaded");
+}
+
 await browser.close();
 server.close();
 console.log(failures ? `\n${failures} check(s) FAILED` : "\nAll checks passed");

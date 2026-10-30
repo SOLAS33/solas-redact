@@ -5,3 +5,4 @@ tests/e2e/out/
 tests/fixtures/out/
 .wrangler/
 *.log
+tests/e2e/out-stress/

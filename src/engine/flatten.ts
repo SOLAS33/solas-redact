@@ -1,4 +1,4 @@
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument, PDFName, concatTransformationMatrix, drawObject, popGraphicsState, pushGraphicsState } from "pdf-lib";
 import { MAX_CANVAS_PIXELS, type QualityPreset, type Rect, type Redaction, type SourceDoc } from "./types";
 import { VERSION } from "../version";
 
@@ -35,6 +35,22 @@ function toJpeg(canvas: HTMLCanvasElement, quality: number): Promise<Uint8Array>
   });
 }
 
+/** Pack a canvas into a 1-bit-per-pixel image, one row per whole number of bytes, 1 = white. */
+function packBilevel(canvas: HTMLCanvasElement): Uint8Array {
+  const { width, height } = canvas;
+  const { data } = canvas.getContext("2d", { willReadFrequently: true })!.getImageData(0, 0, width, height);
+  const rowBytes = (width + 7) >> 3;
+  const out = new Uint8Array(rowBytes * height);
+  for (let y = 0; y < height; y++) {
+    const row = y * rowBytes;
+    for (let x = 0; x < width; x++) {
+      const i = (y * width + x) * 4;
+      if ((data[i] * 299 + data[i + 1] * 587 + data[i + 2] * 114) / 1000 >= 160) out[row + (x >> 3)] |= 0x80 >> (x & 7);
+    }
+  }
+  return out;
+}
+
 /**
  * The redaction itself. Every page is drawn to a picture, the accepted boxes are painted solid black over the picture,
  * and a brand new PDF is built from the pictures alone. Nothing from the original file is copied across: no text, no
@@ -61,11 +77,21 @@ export async function flatten(doc: SourceDoc, redactions: Redaction[], q: Qualit
       ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
       boxes.push({ x: x0 / scale, y: y0 / scale, w: (x1 - x0) / scale, h: (y1 - y0) / scale });
     }
-    const jpeg = await toJpeg(canvas, q.jpeg);
-    canvas.width = canvas.height = 0;
-    const img = await out.embedJpg(jpeg);
     const page = out.addPage([src.widthPt, src.heightPt]);
-    page.drawImage(img, { x: 0, y: 0, width: src.widthPt, height: src.heightPt });
+    if (q.bw) {
+      const w = canvas.width;
+      const h = canvas.height;
+      const packed = packBilevel(canvas);
+      canvas.width = canvas.height = 0;
+      const ref = out.context.register(out.context.flateStream(packed, { Type: "XObject", Subtype: "Image", Width: w, Height: h, ColorSpace: "DeviceGray", BitsPerComponent: 1 }));
+      const name = page.node.newXObject("Scan", ref);
+      page.pushOperators(pushGraphicsState(), concatTransformationMatrix(src.widthPt, 0, 0, src.heightPt, 0, 0), drawObject(name as PDFName), popGraphicsState());
+    } else {
+      const jpeg = await toJpeg(canvas, q.jpeg);
+      canvas.width = canvas.height = 0;
+      const img = await out.embedJpg(jpeg);
+      page.drawImage(img, { x: 0, y: 0, width: src.widthPt, height: src.heightPt });
+    }
     pages.push({ widthPt: src.widthPt, heightPt: src.heightPt, boxes, reduced });
     onPage?.(i + 1, doc.pageCount);
     // let the interface breathe between pages

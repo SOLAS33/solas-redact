@@ -27,7 +27,7 @@ export interface Settings {
   ignoreAccents: boolean;
   patterns: string[];
   ocr: boolean;
-  quality: "standard" | "high" | "best";
+  quality: "standard" | "high" | "best" | "bw";
   deep: boolean;
 }
 

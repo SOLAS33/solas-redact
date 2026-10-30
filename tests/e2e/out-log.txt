@@ -83,5 +83,9 @@ PASS  no document is in any cache
 PASS  no console errors or security policy violations
 PASS  the app opens again with no connection
 PASS  a file can be opened with no connection
+PASS  a black and white copy passes every check
+PASS  the black and white copy is small (36 KB)
+PASS  the black and white copy has no text layer
+PASS  the name is covered in the black and white copy (676 pixels, 0 uncovered)
 
 All checks passed
